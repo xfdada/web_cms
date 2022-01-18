@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title> {block name='title'}{/block}{:getInfo()['web_name']}</title>
+    <meta name="keyword" content=" {block name='keyowrd'}{/block}{:getInfo()['web_key']}">
+    <meta name="description" content="{block name='desc'}{/block}">
+    <link rel="stylesheet" href="_ST_/js/layui/css/layui.css">
+    <link rel="stylesheet" href="_ST_/css/iconfont.css">
+    <link rel="stylesheet" href="_ST_/css/conns.css">
+    <script src="_ST_/js/jquery-3.1.1.min.js"></script>
+    <script src="_ST_/js/layui/layui.js"></script>
+    <script>
+        {:getInfo()['web_js']}
+    </script>
+    {block name='css'}{/block}
+</head>
+<body>
+    <div class="wraps">
+        <div class="navs">
+            <div class="top-nav">
+                <div class="logos"><a href="/"><img src="/{:getInfo()['web_logo']}" alt=""></a></div>
+                <div class="search-input">
+                    <form action="{:url('/search')}">
+                        <span class="ll-span"><input name="keyword" class="ll-input" type="text"></span>
+                        <span class="ll-btn"><input class="ll-bt" type="submit" value="搜索"></span>
+                    </form>
+<!--                    <span class="lanuage"><a href="/en"><img src="_ST_/img/en.png" alt="English"></a></span>-->
+                </div>
+            </div>
+            <div class="menus">
+                <ul class="m-ul">
+                    <li class="one-li li-pull">
+                        <a class="menu-a" href="{:url('/product-list')}"><i class="layui-icon">&#xe66b;</i>全部产品分类</a>
+                        <ul class="ca-pull">
+                            {volist name=":getMenu()" id="vo"}
+                            <li class="one-ca"><a class="ca-a" href="{:url('/product-list/').$vo.url_name}">{$vo.c_name}</a>
+                                {if $vo.sub }
+                                <ul class="nv-sub">
+                                {volist name='$vo.sub' id='voo'}
+                                    <li class="nv-sub-li"><a class="active-a" href="{:url('/product-list/'.$vo.url_name.'/'.$voo.url_name)}">{$voo.c_name}</a></li>
+                                {/volist}
+                                </ul>
+                                {/if}
+                            </li>
+                            {/volist}
+                        </ul>
+                    </li>
+                    <li class="one-li"><a class="menu-a" href="/">首页</a></li>
+                    <li class="one-li"><a class="menu-a {$menu=='hot'? 'menu-a-active':''}" href="{:url('/hot')}">优势产品</a></li>
+                    <li class="one-li"><a class="menu-a {$menu=='news'? 'menu-a-active':''}" href="{:url('/news')}">新闻资讯</a></li>
+                    <li class="one-li"><a class="menu-a {$menu=='about'? 'menu-a-active':''}" href="{:url('/about')}">关于我们</a></li>
+                    <li class="one-li"><a class="menu-a {$menu=='contact'? 'menu-a-active':''}" href="{:url('/contact')}">联系我们</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="pub-content">
+            {block name='content'}
+
+            {/block}
+        </div>
+        <div class="footer">
+            <div class="footer-info" style="background:url(_ST_/img/map.jpg) no-repeat center top; height: 430px">
+                <div class="info-msg">
+                    <div class="map-info">
+                        <div class="map-message">
+                            <div class="pos">
+                                <h2 class="h2-title pub-h2" style="line-height: 50px">联系我们</h2>
+                                <div>电话：<span>{:getInfo()['web_phone']}</span></div>
+                                <div>手机：<span>{:getInfo()['web_moblie']}</span></div>
+                                <div>Q Q：<span>{:getInfo()['web_qq']}</span></div>
+                                {if getInfo()['web_fax']!=""}<div>传真：<span>{:getInfo()['web_fax']}</span></div>{/if}
+                                <div>邮箱：<span>{:getInfo()['web_email']}</span></div>
+                            </div>
+                        </div>
+                        <div>
+                            <img src="_ST_/img/info.png" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-menu">
+                <div class="f-menu">
+                    <div class="one-f-menu">&nbsp;</div>
+                    <div class="one-f-menu">
+                        <li class="f-title"><a href="/">首页</a></li>
+                        <li class="one-f-li"><a href="{:url('/about')}">关于我们</a></li>
+                        <li class="one-f-li"><a href="{:url('/contact')}">联系我们</a></li>
+                        <li class="one-f-li"><a href="{:url('/news')}">新闻资讯</a></li>
+                    </div>
+                    <div class="one-f-menu">
+                        <li class="f-title"><a href="{:url('/product-list')}">产品类别</a></li>
+                        {volist name=":getFirst()" id='vo'}
+                        <li class="one-f-li"><a href="{:url('/product-list/'.$vo.url_name)}">{$vo.c_name}</a></li>
+                        {/volist}
+                    </div>
+                    <div class="one-f-menu">
+                        &nbsp;
+                    </div>
+                    <div class="f-bottom"><span>{:getInfo()['web_bq']}</span><span><a href="">网站地图</a></span></div>
+                </div>
+            </div>
+        </div>
+        <div class="right-slider">
+            <div class="one-slider">
+                <span onclick="kefu()" class="iconfont icon-iconfontzhizuobiaozhun023133"></span>
+            </div>
+            <div class="one-slider">
+                <span class="iconfont icon-weixin"></span>
+                <div class="alerts">
+                    <div class="alert-content">
+                        <div class="alert-title">客服微信</div>
+                        <div class="timer">工作时间：周一至周五 9:30-18:30</div>
+                        <div class="wx-img">
+                            <img src="/{:getInfo()['web_qrcode']}" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="one-slider">
+                <a target="_blank" href="//wpa.qq.com/msgrd?v=3&uin={:getInfo()['web_qq']}&site=qq&menu=yes" rel="nofollow"><span class="iconfont icon-qq"></span></a>
+            </div>
+            <div class="one-slider">
+                <span class="iconfont icon-shouye"></span>
+                <div class="alerts">
+                    <div class="alert-content">
+                        <div class="alert-title">客服热线</div>
+                        <div class="timer">工作时间：周一至周五 9:30-18:30</div>
+                        <div class="alert-info">
+                            <div class="one-alt">电话：{:getInfo()['web_phone']}</div>
+                            <div class="one-alt">手机：{:getInfo()['web_moblie']}</div>
+                            <div class="one-alt">邮箱：{:getInfo()['web_email']}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="one-slider">
+                <span class="iconfont icon-dingbu" onclick="$('body,html').animate({ scrollTop: 0 }, 500);"></span>
+            </div>
+        </div>
+    </div>
+</body>
+
+{block name='js'}
+{/block}
+<script>
+    function kefu(){
+        layer.open({
+            type: 2,
+            title: '在线咨询',
+            shadeClose: true,
+            shade: false,
+            maxmin: true, //开启最大化最小化按钮
+            area: ['800px', '650px'],
+            content: 'https://p.qiao.baidu.com/cps/chat?siteId=17584059&userId=24557950&siteToken=624e99a41c65f2e0953b1801084eb2e8'
+        });
+    }
+</script>
+</html>

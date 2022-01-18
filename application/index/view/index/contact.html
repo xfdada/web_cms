@@ -1,0 +1,135 @@
+{extend name='index/public' /}
+{block name='title'}联系我们{/block}
+{block name='keyowrd'}{$data.page_key}{/block}
+{block name='desc'}{$data.page_desc}{/block}
+{block name='css'}
+<link rel="stylesheet" href="_ST_/css/contact.css">
+{/block}
+{block name='content'}
+<div class="about-banner">
+    <img src="/{:getBanner(4)['img_url']?getBanner(3)['img_url']:''}" alt="">
+</div>
+<div class="mbx">
+    <span class="layui-breadcrumb">
+  <a href="/">首页</a>
+  <a><cite>联系我们</cite></a>
+</span></div>
+
+
+<div class="contact">
+    <div class="slider">
+        <div class="hot-pro">
+            <h3 class="h3-title">热门产品</h3>
+            {volist name="hot_pro" id='vo'}
+            <a href="{:url('/product-detail/'.$vo.url_name)}">
+                <div class="one-hot-pro">
+                    <div class="hot-img"><img src="/{$vo.img_url}" alt="{$vo.name}"></div>
+                    <div class="hot-info">
+                        <h4 class="hot-title">{$vo.name}</h4>
+                        <div class="model">型号：{$vo.model}</div>
+                        <div class="btns"><a target="_blank" class="bt-a" onclick="kefu()" rel="nofollow">立即询价</a></div>
+                    </div>
+                </div>
+            </a>
+            {/volist}
+        </div>
+
+    </div>
+    <div class="content-detail">
+        <h1 class="h1-title">联系我们</h1>
+        <div class="h-detail">
+            {$data.page_content|raw}
+        </div>
+        <h2 class="h2-title">在线留言</h2>
+        <div class="o-input">
+            <div class="one-input">
+                <input type="text" name="name" id="name" autocomplete='off' placeholder="姓名">
+            </div>
+            <div class="one-input">
+                <input type="text" name="company" id="company" autocomplete='off' placeholder="公司名称">
+            </div>
+            <div class="one-input">
+                <input type="text" name="email" id="email" autocomplete='off' placeholder="邮箱">
+            </div>
+            <div class="one-input">
+                <input type="text" name="phone" id="phone" autocomplete='off' placeholder="电话">
+            </div>
+            <div class="one-input codes">
+                <input type="text" class="code" id="code" name="code" style="text-transform:uppercase"  autocomplete='off' placeholder="验证码">
+                <img src="/api/codes" style="cursor: pointer;width: 120px;height: 40px;padding-left: 15px" title="看不清，请点击更换" id="capt" onclick="this.src='/api/codes/'+Math.random()"  >
+            </div>
+            <div class="one-inputs">
+                <textarea class="o-rs" type="text" id="requs" name="requs" autocomplete='off' placeholder="需求"></textarea>
+            </div>
+            <div class="btn">提交</div>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name='js'}
+<script>
+    $(".btn").on('click',function (){
+        var name = $("input[name='name']").val()
+        var company = $("input[name='company']").val()
+        var email = $("input[name='email']").val()
+        var phone = $("input[name='phone']").val()
+        var code = $("input[name='code']").val()
+        var requs = $("#requs").val()
+        if(!pd('姓名','name',name)){return false};
+        if(!pd('公司','company' ,company)){return false}
+        if(!pd('邮箱','email' ,email)){return false}
+        if(!pd('电话','phone' ,phone)){return false}
+        if(!pd('验证码','code',code)){return false}
+        var index= layer.load(1, {
+            shade: [0.35,'#000'],
+            content:"<div style='position: absolute;top: -20px;width: 200px;text-align: center;color: #FFF;transform: translate(-40%, 0);'>正在提交数据</div>"
+        });
+        $.post("{:url('/feedback')}",{name:name,company:company,email:email,phone:phone,code:code,requs:requs},
+            function (res){
+                if(res.code===500){
+                    layer.close(index);
+                    layer.msg(res.msg,{time:3000,icon:5})
+                    return false;
+                }
+                layer.close(index);
+                layer.msg(res.msg,{time:3000,icon:6})
+                $("input[name='name']").val('')
+                $("input[name='company']").val('')
+                $("input[name='email']").val('')
+                $("input[name='phone']").val('')
+                $("input[name='code']").val('')
+                $("#requs").val('')
+                $("#capt").click()
+            })
+    })
+
+    function pd(name,id,value){
+        if (value===''){
+            layer.tips(name+'必填', '#'+id, {
+                tips: [1, '#ce261e']
+            });
+            return false;
+        }
+        if(name==='邮箱'){
+            var pattern = /\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/;
+            if(!pattern.test(value)){
+                layer.tips('请输入正确的邮箱地址', '#'+id, {
+                    tips: [1, '#ce261e']
+                });
+                return;
+            }
+        }
+        if(name==='电话'){
+            var pattern =  /^((\+?86)|(\(\+86\)))?\d{3,4}-\d{7,8}(-\d{3,4})?$/;
+            if(!pattern.test(value)){
+                layer.tips('请输入正确的电话号码', '#'+id, {
+                    tips: [1, '#ce261e']
+                });
+                return;
+            }
+        }
+        return true;
+    }
+</script>
+{/block}

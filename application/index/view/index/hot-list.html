@@ -1,0 +1,57 @@
+{extend name='index/public' /}
+{block name='title'}优势产品{/block}
+{block name='keyword'}{/block}
+{block name='desc'}{/block}
+{block name='css'}
+<link rel="stylesheet" href="_ST_/css/hot.css">
+{/block}
+{block name='content'}
+<div class="about-banner">
+    <img src="/{:getBanner(2)['img_url']?getBanner(3)['img_url']:''}" alt="">
+</div>
+<div class="mbx">
+    <span class="layui-breadcrumb">
+  <a href="/">首页</a>
+  <a><cite>优势产品</cite></a>
+</span></div>
+
+<div class="hot-content">
+
+    <h1 class="hot-h1">优势产品</h1>
+
+    {foreach $pro as $v}
+    {if $v.name==""}
+    {else }
+        <div class="one-hot">
+            <a href="{:url('/product-detail/'.$v.url_name)}">
+                <div class="pro-img">
+                    <img src="/{$v.img_url=='-'?(getInfo()['web_img_url']):$v.img_url}" alt="">
+                </div>
+                <div class="pro-info">
+                    {foreach $info['value'] as $k=>$vo}
+                    {if $v[$vo]!='#'}
+                    <div class="one-info">
+                        <div class="info-title">{$info['title'][$k]}</div>
+                        <div class="info-value">{$v[$vo]}</div>
+                    </div>
+                    {/if}
+                    {/foreach}
+                </div>
+                <div class="btn"><a target="_blank" class="bt-a" onclick="kefu()" rel="nofollow">立即询价</a></div>
+            </a>
+        </div>
+    {/if}
+    {/foreach}
+
+    <div class="page">
+        {$page|raw}
+    </div>
+</div>
+
+{/block}
+
+{block name='js'}
+<script>
+
+</script>
+{/block}

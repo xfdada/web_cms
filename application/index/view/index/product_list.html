@@ -1,0 +1,134 @@
+{extend name='index/public' /}
+{block name='title'}{/block}
+{block name='keyowrd'}{/block}
+{block name='desc'}{/block}
+{block name='css'}
+<link rel="stylesheet" href="_ST_/css/product.css">
+{/block}
+
+{block name='content'}
+<div class="about-banner">
+    <img src="/{:getBanner(7)['img_url']?getBanner(3)['img_url']:''}" alt="">
+</div>
+<div class="mbx">
+    <span class="layui-breadcrumb">
+  <a href="/">首页</a>
+  <a href="{:url('/product-list')}">产品中心</a>
+  {if $menu==''}''{else }<a href="{:url('/product-list/'.$menu)}">{$menu}</a>{/if}
+  {if $type==''}''{else }<a href="{:url('/product-list/'.$menu.'/'.$type)}">{$type}</a>{/if}
+  {if $last==''}''{else }<a href="{:url('/product-list/'.$menu.'/'.$type.'/'.$last)}">{$last}</a>{/if}
+</span></div>
+<div class="p-content">
+    <div class="ca-list">
+        <div class="more-list">
+            <li class="look-tree"><span class="pro-mobs">产品类别</span> </li>
+            <div class="trees">
+                {volist name='tree' id='vo'}
+                {if $vo.sub }
+                    <li class="t-parent "><a href="{:url('/product-list/'.$vo.url_name)} " class="{$menu==$vo.url_name?'parent-active':''} asd">{$vo.c_name}</a>
+                    <div class="t-more">
+                        <span class="alts1"></span><span class="alts2 {$menu==$vo.url_name?'alts2-active':''}"></span>
+                    </div>
+                    <ul class="t-sub {$menu==$vo.url_name?'t-sub-active':''}">
+                        {volist name='$vo.sub' id='voo'}
+                        {if $voo.sub}
+                            <li class="sub-parent "><a class="{$type==$voo.url_name?'parent-active':''} asd" href="{:url('/product-list/'.$vo.url_name.'/'.$voo.url_name)}">{$voo.c_name}</a>
+                                <div class="t-more">
+                                    <span class="alts1"></span><span class="alts3 {$type==$voo.url_name?'alts3-active':''}"></span>
+                                </div>
+                                <ul class="tt-sub {$type==$voo.url_name?'tt-sub-active':''}">
+                                    {volist name='$voo.sub' id='vooo'}
+                                    <li><a href="{:url('/product-list/'.$vo.url_name.'/'.$voo.url_name.'/'.$vooo.url_name)}" class="t-a {$last==$vooo.url_name?'parent-active':''}">{$vooo.c_name}</a></li>
+                                    {/volist}
+                                </ul>
+                            </li>
+                        {else }
+                            <li class="sub-parent "><a class="t-a {$type==$voo.url_name?'parent-active':''}" href="{:url('/product-list/'.$vo.url_name.'/'.$voo.url_name)}">{$voo.c_name}</a></li>
+                        {/if}
+                        {/volist}
+                    </ul>
+                </li>
+                {else }
+                    <li class="t-parent"><a href="{:url('/product-list/'.$vo.url_name)}" class="t-a {$menu==$vo.url_name?'parent-active':''}">{$vo.c_name}</a></li>
+                {/if}
+                {/volist}
+            </div>
+        </div>
+<!--        <div class="type-list">-->
+<!--            {volist name='tree' id='vo'}-->
+<!--                {if $vo.sub }-->
+<!--                    <li class="parent {$menu==$vo.url_name?'parent-active':''}"><a class="suba" href="{:url('/product-list/'.$vo.url_name)}">{$vo.c_name}</a> <i class="layui-icon {$menu==$vo.url_name?'layui-icon-active':''}  layui-icon-right"></i>-->
+<!--                    <ul class="sub {$menu==$vo.url_name?'sub-active':''}">-->
+<!--                        {volist name='$vo.sub' id='voo'}-->
+<!--                        {if $voo.sub}-->
+<!--                        <li class="s-parent {$type==$voo.url_name?'s-parent-active':''}"><a class="twos suba" href="{:url('/product-list/'.$vo.url_name.'/'.$voo.url_name)}">{$voo.c_name}</a><i class="layui-icon {$type==$voo.url_name?'layui-icon-active':''}  layui-icon-right"></i>-->
+<!--                            <ul class="subs">-->
+<!--                                {volist name='$voo.sub' id='vooo'}-->
+<!--                                <a href="{:url('/product-list/'.$vo.url_name.'/'.$voo.url_name.'/'.$vooo.url_name)}"><li class="no-sub {$last==$vooo.url_name?'selected':''} three">{$vooo.c_name}</li></a>-->
+<!--                                {/volist}-->
+<!--                            </ul>-->
+<!--                        </li>-->
+<!--                        {else }-->
+<!--                        <a href="{:url('/product-list/'.$vo.url_name.'/'.$voo.url_name)}"><li class="s-parent {$type==$voo.url_name?'selected':''} twos no-sub">{$voo.c_name}</li></a>-->
+<!--                        {/if}-->
+<!--                        {/volist}-->
+<!--                    </ul>-->
+<!--                    </li>-->
+<!--                {else }-->
+<!--                    <a href="{:url('/product-list/'.$vo.url_name)}"><li class="parent no-sub {$menu==$vo.url_name?'selected':''}">{$vo.c_name}</li></a>-->
+<!--                {/if}-->
+<!--            {/volist}-->
+<!--        </div>-->
+    </div>
+    <div class="pro-content">
+       {foreach $pro as $v}
+        {if $v.name==""}
+        {else }
+        <div class="one-pro">
+            <a target="_blank" href="{:url('/product-detail/'.$v.url_name)}">
+                <div class="pro-img">
+                    <img src="/{$v.img_url=='#'?(getInfo()['web_img_url']):$v.img_url}" alt="">
+                </div>
+                <div class="pro-info">
+                    {foreach $info['value'] as $k=>$vo}
+                    {if $v[$vo]!='#'}
+                        <div class="one-info">
+                            <div class="info-title">{$info['title'][$k]}</div>
+                            <div class="info-value">{$v[$vo]}</div>
+                        </div>
+                    {/if}
+                    {/foreach}
+                </div>
+                <div class="btn"><a target="_blank" class="bt-a" onclick="kefu()">立即询价</a></div>
+            </a>
+        </div>
+        {/if}
+       {/foreach}
+    </div>
+    <div class="page">
+        {$page|raw}
+    </div>
+</div>
+{/block}
+
+{block name='js'}
+<script>
+    $(".t-parent").on('click',function(){
+        $(".alts2").removeClass('alts2-active');
+        $(".t-sub").removeClass('t-sub-active');
+        $(".alts3").removeClass('alts3-active');
+        $(".tt-sub").removeClass('tt-sub-active');
+        $(this).children('div').children('span').addClass('alts2-active')
+        $(this).children('ul').addClass('t-sub-active')
+    })
+    $(".sub-parent").on('click',function(event){
+        event.stopPropagation();
+        $(".alts3").removeClass('alts3-active');
+        $(".tt-sub").removeClass('tt-sub-active');
+        $(this).children('div').children('span').addClass('alts3-active')
+        $(this).children('ul').addClass('tt-sub-active')
+    })
+
+</script>
+
+{/block}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="_ST_/js/layui/css/layui.css">
+    <script src="_ST_/js/jquery-3.1.1.min.js"></script>
+    <script src="_ST_/js/layui/layui.js"></script>
+</head>
+<body>
+
+<div id="setShow"  style="padding: 40px">
+    <div id="test1"></div>
+    <button type="button"  style="margin-top:80px " lay-demotransferactive="getData" class="top-btn layui-btn layui-btn-normal">保存</button>
+</div>
+</body>
+<script>
+    var datas = {$data|raw};
+    layui.use(['table',"form",'transfer', 'layer', 'util'],function (){
+        var $ = layui.$,transfer = layui.transfer,layer = layui.layer,util = layui.util;
+
+        transfer.render({
+                elem: '#test1'  //绑定元素
+                ,title:['数据表字段','详情页顶部显示']
+                ,data: datas
+                ,height:300
+                ,showSearch: true
+                ,value: {$value|raw}
+            ,id: 'key123' //定义索引
+    });
+        util.event('lay-demoTransferActive', {
+            getData: function(){
+                var getData = transfer.getData('key123'); //获取右侧数据
+                $.post('/admin_login/api/detailShow/id/{$id}',{data:getData},function (res){
+                    if(res.code===200){
+                        layer.msg(res.msg,{icon:6,time:2000})
+                    }else{
+                        layer.msg(res.msg,{icon:5,time:2000})
+                    }
+                    setTimeout(function (){
+                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        parent.layer.close(index);  },2100)
+                })
+            }
+        });
+
+
+    });
+</script>
+</html>

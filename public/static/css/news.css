@@ -1,0 +1,235 @@
+.about-banner{
+    width: 100%;
+}
+.mbx{
+    padding-top: 10px;
+    padding-left: 2%;
+}
+.about-banner img{
+    max-width: 100%;
+}
+
+
+
+
+.pagination{
+    display: flex;
+    flex-wrap: wrap;
+}
+.pagination .active span{
+    background: #ce261e;
+    color: #FFF;
+}
+.pagination li{
+    margin: 5px;
+}
+.pagination a{
+    padding: 10px 15px;
+    background: #FFF;
+}
+.pagination span{
+    padding: 10px 15px;
+    background: #FFF;
+    cursor: no-drop;
+}
+.n-img{
+    width: 140px;
+    overflow: hidden;
+}
+.tag{
+    margin-top: 5px;
+}
+.tag a{
+    padding: 0 10px;
+    border-right: 1px solid #999;
+}
+.tag a:last-child,.tag a:first-child{
+    border: none;
+}
+.content-content{
+    width: 1200px;
+    margin: 20px auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+.ca-list{
+    width: 280px;
+    margin-right: 20px;
+}
+
+.look-tree {
+    height: 30px;
+    line-height: 30px;
+    padding: 10px 0;
+    background: #FFF;
+    font-size: 1.5em;
+}
+.more-list {
+    padding: 10px 10px;
+    background: #FFF;
+    min-height: 300px;
+}
+.pro-mobs{
+    font-weight: 600;
+}
+.t-parent{
+    line-height: 30px;
+    font-size: 16px;
+    font-weight: 600;
+    border-bottom: 1px dashed #eee;
+    position: relative;
+}
+.t-a{
+    display: block;
+}
+.t-sub{
+    position: relative;
+    max-height: 0;
+    overflow: hidden;
+    transition: .3s;
+    padding-left: 15px;
+}
+.t-sub-active,.tt-sub-active{
+    max-height: 400px!important;
+}
+.tt-sub{
+    position: relative;
+    max-height: 0;
+    overflow: hidden;
+    transition: .3s;
+    padding-left: 15px;
+}
+.parent-active{
+    color: var(--my-color);
+}
+.t-more{
+    position: absolute;
+    height: 30px;
+    top: 0;
+    right: 0;
+    width: 28px;
+    cursor: pointer;
+}
+.alts1:after{
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 2px;
+    background-color: #4C4C4C;
+    position: absolute;
+    top: 14px;
+    right: 5px;
+}
+.alts2:after,.alts3:after{
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 2px;
+    background-color: #4C4C4C;
+    position: absolute;
+    top: 14px;
+    right: 5px;
+    transform: rotate(90deg);
+    transition: all .3s;
+}
+.alts2-active:after,.alts3-active:after{
+    transform: rotate(180deg);
+}
+.t-a:hover,.asd:hover{
+    color: var(--my-color);
+}
+.new-list{
+    width: 900px;
+    min-height: 800px;
+    padding-bottom: 70px;
+    position: relative;
+}
+.news-tag{
+    width: 50%;
+    margin-left: 20%;
+}
+.one-new {
+    background: #FFF;
+    overflow: hidden;
+    transition: all .3s;
+    border-radius: 5px;
+    padding: 10px 15px;
+    margin: 15px 0;
+}
+.one-new:hover {
+    box-shadow: 0 4px 10px #c1c1c1;
+}
+.one-new:first-child{
+    margin-top: 0;
+}
+.news-title {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    line-height: 30px;
+}
+.news-desc {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+.new-bottom{
+    display: flex;
+    width: 100%;
+    line-height: 30px;
+}
+.times{
+    width: 25px;
+    padding-right: 10px;
+}
+.read{
+    width: 20px;
+    padding-left: 20px;
+    padding-right: 10px;
+}
+.tag-a{
+    padding: 0 10px;
+    border-right: 2px solid #c1c1c1;
+}
+.tag-a:last-child{
+    border: none;
+}
+.new-other{
+    width: 270px;
+}
+.page{
+    width: 100%;
+    text-align: center;
+    margin-top: 30px;
+    position: absolute;
+    bottom: 25px;
+    left: 0;
+}
+.pagination{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.pagination .active span{
+    background: var(--my-color);
+    color: #FFF;
+}
+.pagination li{
+    margin: 5px;
+}
+.pagination a{
+    padding: 10px 15px;
+    background: #FFF;
+}
+.pagination a:hover{
+    padding: 10px 15px;
+    background: var(--my-color);
+    color: #FFF;
+}
+.pagination span{
+    padding: 10px 15px;
+    background: #FFF;
+    cursor: no-drop;
+}

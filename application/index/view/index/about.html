@@ -1,0 +1,46 @@
+{extend name='index/public' /}
+{block name='title'}关于我们{/block}
+{block name='keyowrd'}{$data.page_key}{/block}
+{block name='desc'}{$data.page_desc}{/block}
+{block name='css'}
+<link rel="stylesheet" href="_ST_/css/about.css">
+{/block}
+{block name='content'}
+<div class="about-banner">
+    <img src="/{:getBanner(5)['img_url']?getBanner(3)['img_url']:''}" alt="">
+</div>
+<div class="mbx">
+    <span class="layui-breadcrumb">
+  <a href="/">首页</a>
+  <a><cite>关于我们</cite></a>
+</span></div>
+
+<div class="about">
+    <div class="slider">
+        <div class="hot-pro">
+            <h3 class="h3-title">热门产品</h3>
+            {volist name="hot_pro" id='vo'}
+            <a href="{:url('/product-detail/'.$vo.url_name)}">
+                <div class="one-hot-pro">
+                    <div class="hot-img"><img src="/{$vo.img_url}" alt="{$vo.name}"></div>
+                    <div class="hot-info">
+                        <h4 class="hot-title">{$vo.name}</h4>
+                        <div class="model">型号：{$vo.model}</div>
+                        <div class="btn"><a target="_blank" class="bt-a" onclick="kefu()" rel="nofollow">立即询价</a></div>
+                    </div>
+                </div>
+            </a>
+            {/volist}
+        </div>
+
+    </div>
+    <div class="about-content">
+        <h1 class="h1-title">关于我们</h1>
+        <div class="h-detail">
+            {$data.page_content|raw}
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name='js'}{/block}

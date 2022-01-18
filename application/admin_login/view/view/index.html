@@ -1,0 +1,111 @@
+{extend name='view/public' /}
+{block name='css'}
+<style>
+    .top{
+        display: flex;
+        height: 324px;
+        color: #676a6c;
+    }
+    .now-time{
+        width: 274px;
+        margin: 20px 10px;
+        text-align: center;
+    }
+    .now-time .layui-laydate-footer{
+        display: none;
+    }
+    .i-h2{
+        color: #666;
+    }
+    .infos{
+        width: calc(100% - 294px);
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .one-line{
+        height: 140px;
+        width: 23%;
+        margin: 1%;
+    }
+    .o-title{
+        padding: 15px 20px 8px 15px;
+        border-color: #e7eaec;
+        border-image: none;
+        border-style: solid solid none;
+        border-width: 1px;
+        color: #676a6c;
+        font-size: 14px;
+    }
+    .o-num{
+        background-color: #ffffff;
+        color: inherit;
+        padding: 15px 20px 20px 20px;
+        border-color: #e7eaec;
+        border-image: none;
+        border-style: solid;
+        border-width: 1px;
+        font-size: 20px;
+        height: 60px;
+
+    }
+</style>
+
+{/block}
+{block name='content'}
+
+<div class="top">
+    <div class="now-time">
+        <h2 class="i-h2">当前日期</h2>
+        <div class="layui-inline" id="test-n1"></div>
+    </div>
+    <div class="infos">
+        <div class="one-line">
+            <div class="o-title">浏览量</div>
+            <div class="o-num">暂无</div>
+        </div>
+        <div class="one-line">
+            <div class="o-title">IP</div>
+            <div class="o-num">暂无</div>
+        </div>
+        <div class="one-line">
+            <div class="o-title">访客量</div>
+            <div class="o-num">暂无</div>
+        </div>
+        <div class="one-line">
+            <div class="o-title">新访客</div>
+            <div class="o-num">暂无</div>
+        </div>
+        <div class="one-line">
+            <div class="o-title">产品数量</div>
+            <div class="o-num">{$product}</div>
+        </div>
+        <div class="one-line">
+            <div class="o-title">文章数量</div>
+            <div class="o-num">{$news}</div>
+        </div>
+        <div class="one-line">
+            <div class="o-title">Banner数量</div>
+            <div class="o-num">{$banner}</div>
+        </div>
+        <div class="one-line">
+            <div class="o-title">留言数量</div>
+            <div class="o-num">{$msg}</div>
+        </div>
+    </div>
+</div>
+
+
+
+
+{/block}
+{block name='js'}
+<script>
+    layui.use('laydate', function() {
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#test-n1'
+            ,position: 'static'
+        });
+    })
+</script>
+{/block}

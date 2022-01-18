@@ -1,0 +1,259 @@
+.about-banner{
+    width: 100%;
+}
+.mbx{
+    padding-top: 10px;
+    padding-left: 2%;
+    padding-bottom: 10px;
+}
+.about-banner img{
+    max-width: 100%;
+}
+.p-desc-content{
+    width: 1200px;
+    margin: 20px auto;
+    padding-bottom: 50px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.ca-list{
+    width: 280px;
+    margin-right: 20px;
+}
+.more-list{
+    padding: 10px 10px;
+    background: #FFF;
+    min-height: 300px;
+}
+.look-tree{
+    height: 30px;
+    line-height: 30px;
+    padding: 10px 0;
+    background: #FFF;
+    font-size: 1.5em;
+}
+.pro-mobs{
+    font-weight: 600;
+}
+.t-parent{
+    line-height: 30px;
+    font-size: 16px;
+    font-weight: 600;
+    border-bottom: 1px dashed #eee;
+    position: relative;
+}
+.t-a{
+    display: block;
+}
+.t-sub{
+    position: relative;
+    max-height: 0;
+    overflow: hidden;
+    transition: .3s;
+    padding-left: 15px;
+}
+.t-sub-active,.tt-sub-active{
+    max-height: 400px!important;
+}
+.tt-sub{
+    position: relative;
+    max-height: 0;
+    overflow: hidden;
+    transition: .3s;
+    padding-left: 15px;
+}
+.parent-active{
+    color: var(--my-color);
+}
+.t-more{
+    position: absolute;
+    height: 30px;
+    top: 0;
+    right: 0;
+    width: 28px;
+    cursor: pointer;
+}
+.alts1:after{
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 2px;
+    background-color: #4C4C4C;
+    position: absolute;
+    top: 14px;
+    right: 5px;
+}
+.alts2:after,.alts3:after{
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 2px;
+    background-color: #4C4C4C;
+    position: absolute;
+    top: 14px;
+    right: 5px;
+    transform: rotate(90deg);
+    transition: all .3s;
+}
+.alts2-active:after,.alts3-active:after{
+    transform: rotate(180deg);
+}
+.t-a:hover,.asd:hover{
+    color: var(--my-color);
+}
+.product-info{
+    width: 900px;
+    min-height: 600px;
+    background: #FFF;
+}
+.top-info{
+    display: flex;
+}
+.info-img{
+    width: 280px;
+}
+.info-info{
+    width: 400px;
+    margin-left: 20px;
+    position: relative;
+}
+.h1-title{
+    margin-top: 15px;
+    font-size: 1.5em;
+    line-height: 1.5em;
+}
+
+.info-contact{
+    width: 200px;
+}
+.c-title{
+    text-align: center;
+    padding: 15px 0;
+    font-size: 16px;
+    color: #999;
+    font-weight: 600;
+}
+.one-con{
+    line-height: 30px;
+    padding-left: 15px;
+    text-align: left;
+    font-size: 14px;
+    color: #999;
+}
+.emails{
+    line-height: 15px;
+    padding-top: 8px;
+}
+.attrs{
+    padding-bottom: 50px;
+}
+.one-attr{
+    display: flex;
+    line-height: 30px;
+}
+.attr-title{
+    width: 20%;
+}
+.attr-value{
+    width: 75%;
+    margin-left: 5%;
+}
+.btns{
+    text-align: center;
+    position: absolute;
+    width: 100%;
+    bottom:0;
+    left: 0;
+    height: 40px;
+}
+.btns a{
+    padding: 10px 20px;
+    background: var(--my-color);
+    color: #FFF;
+    font-size: 16px;
+    position: absolute;
+    transform: translate(0, -50%);
+    top: 50%;
+    left: 0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.pro-desc{
+    padding: 50px 15px;
+}
+.h2-pro{
+    font-weight: 600;
+}
+.pro-table{
+    width: 100%;
+    margin: 30px 0;
+}
+.one-tr,.tr-list{
+    display: flex;
+    flex-wrap: wrap;
+}
+.one-tr{
+    width: 49.5%;
+    line-height: 30px;
+    font-size: 15px;
+    border: 1px solid #FFF;
+}
+.pro-title{
+    background: #f3f3f3;
+    text-align: center;
+}
+.attr-titles{
+    width: 35%;
+}
+.attr-values{
+    width: 60%;
+    margin-left: 5%;
+}
+.pro-content{
+    padding-top: 30px;
+}
+.relevant{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 30px 0;
+}
+.one-hot{
+    width: 23%;
+    margin: 15px 0.8%;
+    text-align: center;
+    border: 1px solid #efefef;
+    padding-bottom: 20px;
+    border-radius: 5px;
+}
+.one-hot:hover{
+    box-shadow: 0 5px 10px #cbcbcb;
+}
+.hot-title {
+    line-height: 30px;
+    text-align: center;
+    font-weight: 500;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    padding-bottom: 15px;
+}
+.hot-a {
+    padding: 10px 20px;
+    background: var(--my-color);
+    color: #FFF;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.hot-a:hover{
+    color: #FFF;
+}
+.one-new{
+    width: 48%;
+    line-height: 30px;
+}
+.one-new:nth-child(2n){
+    margin-left: 4%;
+}
+.one-new a{
+    padding-left: 15px;
+}

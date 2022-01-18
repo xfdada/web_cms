@@ -1,0 +1,446 @@
+{extend name='view/public' /}
+{block name='css'}
+<style>
+    .layui-table tr{
+        height: 60px;
+    }
+    layui-table-header{
+        height: 28px!important;
+        line-height: 28px;
+    }
+    .layui-table-body .layui-table-cell{
+        height: 60px;
+        line-height: 60px;
+    }
+    .top-btn{
+        margin-left: 20px;
+    }
+</style>
+<style>
+    .layui-inline{
+        width: 70%;
+    }
+    .show-icon{
+        position: absolute;
+        top: 50%;
+        transform: translate(0, -50%);
+        left: 5px;
+        font-size: 20px;
+        color: #878787;
+        cursor: pointer;
+    }
+    .layui-input{
+        padding-left: 30px;
+    }
+    .layui-form-label{
+        width: 120px!important;
+    }
+    .up-btn{
+        position: absolute;
+        right: 0;
+        transform: translate(0%, -100%);
+    }
+    .img-lo{
+        width: 70%;
+    }
+    .img-show{
+        position: absolute;
+        width: 120px;
+        height: 80px;
+        background: #FFF;
+        z-index: 9;
+        top: -20px;
+        left: 30px;
+        display: none;
+        text-align: center;
+        line-height: 80px;
+    }
+    .img-show img{
+        max-width: 100%;
+    }
+    .layui-input-block {
+        margin-left: 150px;
+        min-height: 36px;
+    }
+    .add-tag{
+        height: 30px;
+        margin-bottom: 5px;
+    }
+    .tops{
+        display: flex;
+    }
+    .top-form{
+        width: 60%;
+        margin-left: 40px;
+    }
+    .cancels{
+        position: absolute;
+        top: 0;
+        right: 10px;
+        color: red;
+        font-weight: 600;
+        font-size: 20px;
+    }
+    .layui-form-select dl{
+        z-index: 9999;
+    }
+</style>
+
+{/block}
+
+{block name='content'}
+
+<fieldset class="layui-elem-field layui-field-title">
+    <legend>产品管理</legend>
+</fieldset>
+<div class="tops">
+    <button type="button" onclick="addBanner()" class="top-btn layui-btn layui-btn-normal">添加产品</button>
+    <form class="layui-form top-form" action="" lay-filter="search">
+        <div class="add-tag">
+            <div class="layui-inline">
+                <div class="layui-input-inline">
+                    <input type="text" name="name"  placeholder="输入关键字查询" autocomplete="off" class="layui-input">
+                </div>
+                <button type="button"  class="layui-btn layui-btn-normal" lay-submit lay-filter="search" >查询产品</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/html" id="barDemo">
+    <button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">编辑</button>
+    <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</button>
+</script>
+<script type="text/html" id="switchTpl">
+    <input type="checkbox" name="show" value="{{d.id}}" lay-skin="switch" lay-text="显示|不显示" lay-filter="show" {{ d.show == 1 ?'checked' : '' }}>
+</script>
+<script type="text/html" id="switchTpl1">
+    <input type="checkbox" name="hot" value="{{d.id}}" lay-skin="switch" lay-text="显示|不显示" lay-filter="hot" {{ d.hot == 1 ?'checked' : '' }}>
+</script>
+<script type="text/html" id="b-img">
+    <div class="b-img" style="width: 80px;height: 40px">
+        <img style="max-width: 100%" src="/{{d.img_url}}" alt="">
+    </div>
+</script>
+<script type="text/html" id="url">
+    {{ d.url != 'javascript:;' ? "<a target='_blank' href='"+ d.url +"'>链接</a>" : '' }}
+</script>
+<table class="layui-table" id="content"  lay-filter="content"></table>
+
+<div id="addBanner" style="display:none;padding: 30px;">
+    <form class="layui-form" action="" lay-filter="test">
+        <input type="text" hidden name="id">
+        <div class="layui-form-item">
+            <label class="layui-form-label">产品名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">关键词</label>
+            <div class="layui-input-block">
+                <input type="text" name="keyword" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">产品描述</label>
+            <div class="layui-input-block">
+                <input type="text" name="desc" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">产品缩略图</label>
+            <div class="layui-inline">
+                <input type="text" name="img_url" disabled value="" id="logo" placeholder="" class="layui-input img-lo">
+                <i class="layui-icon show-icon" data-tag="web_logo">&#xe64a;</i>
+                <button type="button" class="layui-btn up-btn" id="test2"><i class="layui-icon"></i>上传缩略图</button>
+                <div class="img-show"><img src="" id="imgs" alt=""></div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">产品详情图</label>
+            <div class="layui-upload">
+                <button type="button" class="layui-btn" id="test3">多图片上传</button>
+                <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;margin-left: 150px;height: 100px">
+                    预览图：上传三张图片为最佳
+                    <div class="layui-upload-list" style="display: flex" id="demo2"></div>
+                    <input type="text" hidden id="urls" name="urls">
+                </blockquote>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">产品类别</label>
+            <div class="layui-input-block" id="tags">
+                <select name="c_id" id="p-info" lay-filter="p_id">
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">产品详情</label>
+            <div class="layui-input-block">
+                <textarea id="container" style="height: 300px;width: 560px" name="content" type="text/plain"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"></label>
+            <div class="layui-input-block">
+                <button type="button" lay-submit lay-filter="go" class="layui-btn layui-btn-normal">提交</button>
+            </div>
+        </div>
+    </form>
+</div>
+{/block}
+
+{block name='js'}
+<script type="text/javascript" src="_ST_/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="_ST_/js/ueditor/ueditor.all.js"></script>
+<script>
+
+    $(function (){
+        $.get('/admin_login_en/api/getFullTree',function (res){
+            if(res.code===200){
+                var po = '';
+                for (let i = 0; i < res.data.length; i++) {
+                    po+='<option value="'+res.data[i]['id']+'">'+res.data[i]['c_name']+'</option>'
+                    let sub = res.data[i].sub
+                    for(let j=0;j< sub.length;j++){
+                        po+='<option value="'+sub[j]['id']+'">-->'+sub[j]['c_name']+'</option>'
+                        let subs = sub[j].sub
+                        console.log(subs)
+                        if(subs){
+                            for(let k=0;k<subs.length;k++){
+                                po+='<option value="'+subs[j]['id']+'">-->-->'+subs[j]['c_name']+'</option>'
+                            }
+                        }
+                    }
+                }
+                $("#p-info").append(po)
+                layui.use('form',function (){
+                    var form = layui.form;
+                    form.render();//添加这一句
+                })
+            }
+        })
+    })
+
+    var ue = UE.getEditor('container');
+    layui.use(['table',"form","upload"], function() {
+        var table = layui.table;
+        var form = layui.form;
+        var upload =layui.upload;
+        form.render();//添加这一句
+        var tableIns = table.render({
+            elem: '#content'
+            ,height: 660
+            ,url: '/admin_login_en/api/product' //数据接口
+            ,page: true //开启分页
+            ,cols: [[
+                {field:'id', title:'ID',width:80,sort: true, }
+                ,{field:'img_url', title:'产品缩略图',templet: "#b-img"}
+                ,{field:'name', title:'产品名称'}
+                ,{field:'desc', title:'产品简述'}
+                ,{field:'keyword', title:'产品关键词'}
+                ,{field:'c_name', title:'归属类目'}
+                ,{field:'show', title:'是否显示',templet: "#switchTpl"}
+                ,{field:'hot', title:'是否推荐',templet: "#switchTpl1"}
+                ,{field:'add_time', title:'添加时间'},
+                {field: '',title:"操作",width:180,templet: "#barDemo"}
+            ]]
+        });
+        table.resize('content');
+        table.on('tool(content)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'del') {
+                layer.confirm('真的删除么?', function (index) {
+                    $.get('/admin_login_en/api/product_del/id/' + data.id, function (res) {
+                        if (res.code === 200) {
+                            layer.msg(res.msg, {icon: 6, time: 2000});
+                            obj.del();
+                        } else {
+                            layer.msg(res.msg, {icon: 5, time: 2000});
+                        }
+                    })
+                })
+            } else if (obj.event === 'edit') {
+                $.get('/admin_login_en/api/getProduct/id/'+data.id,function (res){
+                    if(res.code===200){
+                        $("input[name='id']").val(res.data.id)
+                        form.val("test", {
+                            "name": res.data.name
+                            ,"img_url": res.data.img_url
+                            ,"desc": res.data.desc
+                            ,"keyword":res.data.keyword
+                            ,"c_id":res.data.c_id
+                            ,"urls":res.data.urls
+                        });
+                        $("#imgs").attr("src","/"+res.data.img_url)
+                        $('#demo2').html(" ")
+                        var l_img = res.data.urls.split(",")
+                        $.each(l_img,function (index,src){
+                            $('#demo2').append(' <div style="position: relative;width: 100px;" id="ss'+index+'"><img height="60px" width="90px" src="/'+ src +'" class="layui-upload-img"> <i class="layui-icon cancels" data-index="'+index+'">&#x1006;</i>\n' +
+                                '                        </div>')
+                        })
+                        form.render();//添加这一句
+                        let value = res.data.content
+                        setTimeout(function (){
+                            ue.setContent(value,false)
+                        },200)
+                        layer.open({
+                                title:"编辑信息",
+                                type:1,
+                                content:$('#addBanner'),
+                                area:['866px','790px'],
+                                shade: 0,
+                                cancel: function(index, layero){
+                                    layer.close(index)
+                                    $("#addBanner").css('display','none')
+                                    return false;
+                                }
+
+                            }
+                        );
+
+                    }else{
+                        layer.msg(res.msg,{icon:5,time:2000})
+                    }
+
+                })
+            }
+        });
+        //单图上传
+        upload.render({ //允许上传的文件后缀
+            elem: '#test2'
+            ,url: '/admin_login_en/upload/upload' //此处配置你自己的上传接口即可
+            ,accept: 'file' //普通文件
+            ,exts: 'png|jpg|jpeg|gif' //只允许上传压缩文件
+            ,done: function(res){
+                if(res.code===200){
+                    layer.msg('上传成功');
+                    $("#imgs").attr("src","/"+res.data)
+                    $("#logo").val(res.data)
+                }
+            }
+        });
+        var count = 0;
+        upload.render({
+            elem: '#test3'
+            ,url: '/admin_login_en/upload/upload'
+            ,multiple: true
+            ,before: function(obj){
+                //预读本地文件示例，不支持ie8
+                obj.preview(function(index, file, result){
+                    $('#demo2').append(' <div style="position: relative;width: 100px;" id="ss'+index+'"><img height="60px" width="90px" src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img"> <i class="layui-icon cancels" data-index="'+index+'">&#x1006;</i>\n' +
+                        '                        </div>')
+                });
+            }
+            ,done: function(res){
+                //上传完毕
+                if(res.code === 500){
+                    return layer.msg('上传失败');
+                }
+                //上传成功
+                var url = $("#urls").val();
+                if(url!==''){
+                    url = url+','+res.data;
+                }else{
+                    url = res.data;
+                }
+                $("#urls").val(url);
+            }
+        });
+        //监听性别操作
+        form.on('switch(show)', function(obj){
+            $.post("/admin_login_en/api/product_show/id/"+this.value,{value:obj.elem.checked,name:'show'},function (res){
+                if(res.code===200){
+                    layer.msg(res.msg,{icon:6,time:2000})
+                }else{
+                    layer.msg(res.msg,{icon:5,time:2000})
+                }
+            })
+        });
+        form.on('switch(hot)', function(obj){
+            $.post("/admin_login_en/api/product_show/id/"+this.value,{value:obj.elem.checked,name:'hot'},function (res){
+                if(res.code===200){
+                    layer.msg(res.msg,{icon:6,time:2000})
+                }else{
+                    layer.msg(res.msg,{icon:5,time:2000})
+                }
+            })
+        });
+
+        form.on("submit(search)",function(data){
+            tableIns.reload({
+                where: { //设定异步数据接口的额外参数，任意设
+                    name: data.field.name
+                }
+                ,page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            });
+        })
+
+        form.on('submit(go)',function (data){
+            var url = "/admin_login_en/api/addProduct"
+            if(data.field.id!=="") {
+                url = "/admin_login_en/api/product_update/id/" + data.field.id
+            }
+            $.post(url,{data:data.field,urls:$("#imgss").val()},function (res){
+                if(res.code===200){
+                    layer.msg(res.msg,{icon:6,time:2000})
+                    setTimeout(function (){layer.closeAll();$("#addBanner").css('display','none')},2000)
+                    tableIns.reload();
+                    return 1;
+                }
+                layer.msg(res.msg,{icon:5,time:2000})
+            })
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        })
+    });
+    $(".show-icon").on('mouseover',function(){
+        $(this).parent('div').children('div').css('display','block')
+    }).mouseout(function (){
+        $(this).parent('div').children('div').css('display','none')
+    })
+
+
+    $("body").delegate(".cancels","click",function(){
+        var index =  $(this).attr('data-index');
+        $("#ss"+index).remove();
+        var url = $("#urls").val();
+        var new_url = url.split(',');
+        new_url.splice(index,1);
+        var new_imgs = new_url.join(',');
+        $("#urls").val(new_imgs);
+        console.log($("#urls").val())
+    });
+    function addBanner(){
+        $("input[name='url']").val('');
+        $("input[name='urls']").val('');
+        $("input[name='img_url']").val('');
+        $("input[name='name']").val('');
+        $("input[name='desc']").val('');
+        $("input[name='keyword']").val('');
+        $("#imgs").attr('src',"");
+        $("input[name='id']").val('')
+        $('#demo2').html(" ")
+        layui.use('form',function (){
+            var form = layui.form;
+            form.render();//添加这一句
+        })
+        layer.open(
+            {
+                title:'添加产品',
+                type:1,
+                content:$('#addBanner'),
+                area:['786px','690px'],
+                shade: 0,
+                cancel: function(index, layero){
+                    layer.close(index)
+                    $("#addBanner").css('display','none')
+                    return false;
+                }
+            }
+        );
+    }
+</script>
+
+{/block}

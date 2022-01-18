@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>网站后台管理平台</title>
+    <link rel="stylesheet" href="_ST_/js/layui/css/layui.css">
+    <link rel="stylesheet" href="_ST_/css/login.css">
+    <script src="_ST_/js/jquery-3.1.1.min.js"></script>
+    <script src="_ST_/js/layui/layui.js"></script>
+</head>
+<body id="login">
+<div class="login">
+    <h2>时时发网站管理后台</h2>
+    <form class="layui-form" method="post">
+        <div class="layui-form-item">
+            <input type="username" name="name" lay-verify="required" autocomplete="off" lay-reqtext="用户名是必填项" placeholder="用户名" class="layui-input">
+            <i class="layui-icon input-icon">&#xe66f;</i>
+        </div>
+        <div class="layui-form-item">
+            <input type="password" name="pwd" lay-verify="required" autocomplete="off" lay-reqtext="密码是必填项" placeholder="密码" class="layui-input">
+            <i class="layui-icon input-icon">&#xe673;</i>
+        </div>
+        <div class="layui-form-item" style="display: flex">
+            <input type="text" name="code" style="width: 40%;margin-right: 10%" lay-verify="required" placeholder="验证码" class="layui-input">
+            <img src="/api/codes" style="cursor: pointer" title="看不清，请点击更换" id="codes" onclick="this.src='/api/codes/'+Math.random()" width="50%" >
+        </div>
+        <div class="layui-form-item">
+            <button style="width: 100%" type="button"  class="layui-btn" lay-submit lay-filter="login">立即登录</button>
+        </div>
+    </form>
+    <script>
+        layui.use('form', function() {
+            const form = layui.form;
+            const layer = layui.layer;
+            form.on('submit(login)', function(data){
+                console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+                let datas = data.field;
+                $.post('/api/sing_in',{code:datas.code,name:datas.name,pwd:datas.pwd},function (res){
+                    if(res.code===200){
+                        layer.msg('登陆成功,即将跳转到后台首页',{time:2000});
+                        setTimeout("window.location.href='/admin_login/index/index'",2000)
+                    }else{
+                        layer.msg(res.msg,{icon:5,time:3000});
+                        $("#codes").attr('src','/api/codes/'+Math.random())
+                    }
+                })
+            });
+            });
+    </script>
+</div>
+</body>
+</html>

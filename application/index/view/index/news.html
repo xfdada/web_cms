@@ -1,0 +1,97 @@
+{extend name='index/public' /}
+{block name='title'}新闻资讯{/block}
+{block name='keyowrd'}{/block}
+{block name='desc'}{/block}
+{block name='css'}
+<link rel="stylesheet" href="_ST_/css/news.css">
+{/block}
+{block name='content'}
+<div class="about-banner">
+    <img src="/{:getBanner(3)['img_url']?getBanner(3)['img_url']:'22'}" alt="">
+</div>
+<div class="mbx">
+    <span class="layui-breadcrumb">
+  <a href="/">首页</a>
+  <a><cite>新闻资讯</cite></a>
+</span></div>
+
+<div class="content-content">
+    <div class="ca-list">
+        <div class="more-list">
+            <li class="look-tree"><span class="pro-mobs">产品类别</span> </li>
+            <div class="trees">
+                {volist name='tree' id='vo'}
+                {if $vo.sub }
+                <li class="t-parent "><a href="{:url('/product-list/'.$vo.url_name)} " class=" asd">{$vo.c_name}</a>
+                    <div class="t-more">
+                        <span class="alts1"></span><span class="alts2 alts2-active"></span>
+                    </div>
+                    <ul class="t-sub t-sub-active">
+                        {volist name='$vo.sub' id='voo'}
+                        {if $voo.sub}
+                        <li class="sub-parent "><a class="asd" href="{:url('/product-list/'.$vo.url_name.'/'.$voo.url_name)}">{$voo.c_name}</a>
+                            <div class="t-more">
+                                <span class="alts1"></span><span class="alts3 alts3-active"></span>
+                            </div>
+                            <ul class="tt-sub tt-sub-active">
+                                {volist name='$voo.sub' id='vooo'}
+                                <li><a href="{:url('/product-list/'.$vo.url_name.'/'.$voo.url_name.'/'.$vooo.url_name)}" class="t-a">{$vooo.c_name}</a></li>
+                                {/volist}
+                            </ul>
+                        </li>
+                        {else }
+                        <li class="sub-parent "><a class="t-a " href="{:url('/product-list/'.$vo.url_name.'/'.$voo.url_name)}">{$voo.c_name}</a></li>
+                        {/if}
+                        {/volist}
+                    </ul>
+                </li>
+                {else }
+                <li class="t-parent"><a href="{:url('/product-list/'.$vo.url_name)}" class="t-a ">{$vo.c_name}</a></li>
+                {/if}
+                {/volist}
+            </div>
+        </div>
+    </div>
+    <div class="new-list">
+        {volist name='data' id='vo'}
+        <div class="one-new">
+            <a href="{:url('/news-detail/'.$vo.id)}">
+                <div class="infos">
+                    <h2 class="news-title">{$vo.title}</h2>
+                    <div class="news-desc">{$vo.desc}</div>
+                    <div class="new-bottom">
+                        <div class="new-other"><span><img class="times" src="_ST_/img/time.png" alt="">{$vo.add_time}</span> <span><img
+                                src="_ST_/img/read.png" class="read" alt="">{$vo.view_count}</span></div>
+                        <div class="news-tag"><span><i class="layui-icon">&#xe66e;</i></span>{volist name='$vo.tags' id='voo'}<a class="tag-a" href="{:url('/tag_news/'.$voo.id)}"><span>{$voo.tag_name}</span></a>{/volist}</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {/volist}
+        <div class="page">
+            {$page|raw}
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name='js'}
+<script>
+    $(".t-parent").on('click',function(){
+        $(".alts2").removeClass('alts2-active');
+        $(".t-sub").removeClass('t-sub-active');
+        $(".alts3").removeClass('alts3-active');
+        $(".tt-sub").removeClass('tt-sub-active');
+        $(this).children('div').children('span').addClass('alts2-active')
+        $(this).children('ul').addClass('t-sub-active')
+    })
+    $(".sub-parent").on('click',function(event){
+        event.stopPropagation();
+        $(".alts3").removeClass('alts3-active');
+        $(".tt-sub").removeClass('tt-sub-active');
+        $(this).children('div').children('span').addClass('alts3-active')
+        $(this).children('ul').addClass('tt-sub-active')
+    })
+
+</script>
+{/block}

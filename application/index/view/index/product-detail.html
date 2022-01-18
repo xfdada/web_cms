@@ -1,0 +1,198 @@
+{extend name='index/public' /}
+{block name='title'}{$info.name}{/block}
+{block name='keyword'}{$info.keyword}{/block}
+{block name='desc'}{$info.desc}{/block}
+{block name='css'}
+<link rel="stylesheet" href="_ST_/js/swiper/swiper-bundle.min.css">
+<link rel="stylesheet" href="_ST_/css/product-detail.css">
+{/block}
+
+{block name='content'}
+<div class="about-banner">
+    <img src="/{:getBanner(6)['img_url']?getBanner(3)['img_url']:''}" alt="">
+</div>
+<div class="mbx">
+    <span class="layui-breadcrumb">
+  <a href="/">首页</a>
+  <a href="{:url('/product-list')}">产品中心</a>
+  {if $menu==''}''{else }<a href="{:url('/product-list/'.$menu)}">{$menu}</a>{/if}
+  {if $type==''}''{else }<a href="{:url('/product-list/'.$menu.'/'.$type)}">{$type}</a>{/if}
+  {if $last==''}''{else }<a href="{:url('/product-list/'.$menu.'/'.$type.'/'.$last)}">{$last}</a>{/if}
+  <a>{$info.name}</a>
+</span></div>
+
+<div class="p-desc-content">
+    <div class="ca-list">
+        <div class="more-list">
+            <li class="look-tree"><span class="pro-mobs">产品类别</span> </li>
+            <div class="trees">
+                {volist name='tree' id='vo'}
+                {if $vo.sub }
+                <li class="t-parent "><a href="{:url('/product-list/'.$vo.url_name)} " class="{$menu==$vo.url_name?'parent-active':''} asd">{$vo.c_name}</a>
+                    <div class="t-more">
+                        <span class="alts1"></span><span class="alts2 {$menu==$vo.url_name?'alts2-active':''}"></span>
+                    </div>
+                    <ul class="t-sub {$menu==$vo.url_name?'t-sub-active':''}">
+                        {volist name='$vo.sub' id='voo'}
+                        {if $voo.sub}
+                        <li class="sub-parent "><a class="{$type==$voo.url_name?'parent-active':''} asd" href="{:url('/product-list/'.$vo.url_name.'/'.$voo.url_name)}">{$voo.c_name}</a>
+                            <div class="t-more">
+                                <span class="alts1"></span><span class="alts3 {$type==$voo.url_name?'alts3-active':''}"></span>
+                            </div>
+                            <ul class="tt-sub {$type==$voo.url_name?'tt-sub-active':''}">
+                                {volist name='$voo.sub' id='vooo'}
+                                <li><a href="{:url('/product-list/'.$vo.url_name.'/'.$voo.url_name.'/'.$vooo.url_name)}" class="t-a {$last==$vooo.url_name?'parent-active':''}">{$vooo.c_name}</a></li>
+                                {/volist}
+                            </ul>
+                        </li>
+                        {else }
+                        <li class="sub-parent "><a class="t-a {$type==$voo.url_name?'parent-active':''}" href="{:url('/product-list/'.$vo.url_name.'/'.$voo.url_name)}">{$voo.c_name}</a></li>
+                        {/if}
+                        {/volist}
+                    </ul>
+                </li>
+                {else }
+                <li class="t-parent"><a href="{:url('/product-list/'.$vo.url_name)}" class="t-a {$menu==$vo.url_name?'parent-active':''}">{$vo.c_name}</a></li>
+                {/if}
+                {/volist}
+            </div>
+        </div>
+    </div>
+
+    <div class="product-info">
+        <div class="top-info">
+            <div class="info-img">
+                <img src="/{$info.img_url=='-'?(getInfo()['web_img_url']):$info.img_url}" alt="">
+            </div>
+            <div class="info-info">
+                <h1 class="h1-title">{$info.name}</h1>
+            <div class="attrs">
+                {volist name="top_info['title']" id="vo" Key='key'}
+                {if $top_info['value'][$key]=='tech'&& $info[$top_info['value'][$key]]!="#"}
+                <div class="one-attr" style="line-height: 34px;"><div class="attr-title">{$vo}</div><div class="attr-value"><a rel="nofollow" target="_blank" href="{$info[$top_info['value'][$key]]}"><img
+                        src="_ST_/img/PDF.png" alt=""></a></div></div>
+                {elseif $top_info['value'][$key]=='tech'&& $info[$top_info['value'][$key]]=="#" /}
+                <div class="one-attr" style="line-height: 34px;"><div class="attr-title">{$vo}</div><div class="attr-value">暂无数据</div></div>
+                {elseif $info[$top_info['value'][$key]]!="#" /}
+                <div class="one-attr"><div class="attr-title">{$vo}</div><div class="attr-value">{$info[$top_info['value'][$key]]}</div></div>
+                {else /}
+                {/if}
+                {/volist}
+            </div>
+                <div class="btns"><a  onclick="kefu()">立即询价</a></div>
+            </div>
+            <div class="info-contact">
+                <div class="c-title">联系我们</div>
+                <div class="one-con">电话：{:getInfo()['web_phone']}</div>
+                <div class="one-con">手机：{:getInfo()['web_moblie']}</div>
+                <div class="one-con">Q Q：{:getInfo()['web_qq']}</div>
+                <div class="one-con emails">邮箱：{:getInfo()['web_email']}</div>
+            </div>
+        </div>
+        <div class="pro-desc">
+            <h2 class="h2-pro">产品属性</h2>
+            <div class="pro-table">
+                <div class="tr-list">
+                    {volist name='attrs' id='vo'}
+                    <div class="one-tr">
+                        <div class="attr-titles pro-title">{$vo.attr_name}</div>
+                        <div class="attr-values">{$vo.attr_value}</div>
+                    </div>
+                    {/volist}
+                </div>
+
+                <div class="pro-content">
+                    {$info.content|raw}
+                </div>
+
+            </div>
+        </div>
+        <div class="pors">
+            <h2 class="h2-pro" style="padding-left: 15px">{$info.name}的相关推荐</h2>
+            <div class="relevant">
+                {volist name='like_pro' id='vo'}
+                <div class="one-hot">
+                    <a href="{:url('/product-detail/'.$vo.url_name)}">
+                        <div class="hot-img">
+                            <img src="/{$vo.img_url=='#'?(getInfo()['web_img_url']):$vo.img_url}" alt="">
+                        </div>
+                        <h4 class="hot-title">{$vo.name}</h4>
+                        <div class="hot-btn">
+                            <a class="hot-a" onclick="kefu()">立即询价</a>
+                        </div>
+                    </a>
+                </div>
+                {/volist}
+            </div>
+        </div>
+        <div class="pors">
+            <h2 class="h2-pro" style="padding-left: 15px">热门产品</h2>
+            <div class="relevant">
+                {volist name='hot_pro' id='vo'}
+                <div class="one-hot">
+                    <a href="{:url('/product-detail/'.$vo.url_name)}">
+                        <div class="hot-img">
+                            <img src="/{$vo.img_url=='#'?(getInfo()['web_img_url']):$vo.img_url}" alt="">
+                        </div>
+                        <h4 class="hot-title">{$vo.name}</h4>
+                        <div class="hot-btn">
+                            <a class="hot-a" onclick="kefu()">立即询价</a>
+                        </div>
+                    </a>
+                </div>
+                {/volist}
+            </div>
+        </div>
+        <div class="pors">
+            <h2 class="h2-pro" style="padding-left: 15px">相关新闻</h2>
+            <div class="relevant">
+                {volist name='hot_news' id='vos'}
+                <div class="one-new"><a href="{:url('/news-detail/'.$vos.id)}">{$vos.title}</a></div>
+                {/volist}
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name='js'}
+<script src="_ST_/js/swiper/swiper-bundle.min.js"></script>
+<script>
+    $(".t-parent").on('click',function(){
+        $(".alts2").removeClass('alts2-active');
+        $(".t-sub").removeClass('t-sub-active');
+        $(".alts3").removeClass('alts3-active');
+        $(".tt-sub").removeClass('tt-sub-active');
+        $(this).children('div').children('span').addClass('alts2-active')
+        $(this).children('ul').addClass('t-sub-active')
+    })
+    $(".sub-parent").on('click',function(event){
+        event.stopPropagation();
+        $(".alts3").removeClass('alts3-active');
+        $(".tt-sub").removeClass('tt-sub-active');
+        $(this).children('div').children('span').addClass('alts3-active')
+        $(this).children('ul').addClass('tt-sub-active')
+    })
+
+    var swiper2 = new Swiper(".mySwiper2", {
+        loop: true,
+        spaceBetween: 0,
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        }
+    });
+    var swiper3 = new Swiper(".mySwiper3", {
+        slidesPerView: 4,
+        spaceBetween: 20,
+        slidesPerGroup: 4,
+        loop: false,
+        loopFillGroupWithBlank: true,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+    });
+</script>
+
+{/block}

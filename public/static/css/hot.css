@@ -1,0 +1,122 @@
+.about-banner{
+    width: 100%;
+}
+.mbx{
+    padding-top: 10px;
+    padding-left: 2%;
+}
+.about-banner img{
+    max-width: 100%;
+}
+.hot-content{
+    width: 1200px;
+    margin: 20px auto;
+    background: #FFF;
+    display: flex;
+    flex-wrap: wrap;
+    padding-bottom: 20px;
+}
+.hot-h1{
+    text-align: center;
+    padding: 30px 0;
+    width: 100%;
+    position: relative;
+}
+.hot-h1:after{
+    content: '';
+    display: inline-block;
+    width: 32px;
+    height: 3px;
+    background-color: #4C4C4C;
+    position: absolute;
+    left: 50%;
+    margin-left: -12px;
+    bottom: 20px;
+}
+.one-hot{
+    width: 23%;
+    margin: 10px 0.89%;
+    background: #FFF;
+    border: 1px solid #efefef;
+    padding-bottom: 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+.pro-info {
+    border: 1px solid #aaa;
+    margin: 10px 5px;
+    line-height: 28px;
+}
+.one-info {
+    display: flex;
+    border-bottom: 1px solid #aaa;
+    transition: all 1s;
+}
+.one-hot:hover {
+    box-shadow: 4px 5px 10px 5px #dbdbdb;
+}
+.one-info:last-child{
+    border-bottom: none;
+}
+.btn {
+    padding: 15px 0;
+    text-align: center;
+}
+.bt-a {
+    margin: 0 4px;
+    padding: 8px 20px;
+    border: 1px solid var(--my-color);
+    color: var(--my-color);
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.btn a:hover {
+    color: #FFF;
+    background: var(--my-color);
+}
+.info-title {
+    width: 30%;
+    border-right: 1px solid #aaa;
+    padding-left: 5px;
+    text-align: left;
+}
+.info-value {
+    width: 70%;
+    padding-left: 5px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-align: left;
+}
+.page{
+    width: 100%;
+    text-align: center;
+    margin-top: 30px;
+}
+.pagination{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.pagination .active span{
+    background: var(--my-color);
+    color: #FFF;
+}
+.pagination li{
+    margin: 5px;
+}
+.pagination a{
+    padding: 10px 15px;
+    background: #FFF;
+}
+.pagination a:hover{
+    padding: 10px 15px;
+    background: var(--my-color);
+    color: #FFF;
+}
+.pagination span{
+    padding: 10px 15px;
+    background: #FFF;
+    cursor: no-drop;
+}

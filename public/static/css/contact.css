@@ -1,0 +1,145 @@
+.about-banner{
+    width: 100%;
+}
+.mbx{
+    padding-top: 10px;
+    padding-left: 2%;
+}
+.about-banner img{
+    max-width: 100%;
+}
+.contact{
+    width: 1200px;
+    margin: 20px auto;
+    display: flex;
+}
+.slider{
+    width: 280px;
+    margin-right: 20px;
+    background: #FFF;
+    border-radius: 10px;
+    padding-bottom: 40px;
+}
+.content-detail{
+    width: 900px;
+    background: #FFF;
+    border-radius: 10px;
+
+}
+.h1-title{
+    padding: 20px 0;
+    text-align: center;
+}
+.h-detail{
+    padding: 0 20px;
+    min-height: 400px;
+}
+.h3-title{
+    text-align: center;
+    padding: 15px 0;
+    font-weight: 600;
+}
+
+.one-hot-pro{
+    width: 90%;
+    margin: 10px 5%;
+    text-align: center;
+    border: 1px solid #eee;
+    border-radius: 5px;
+}
+.one-hot-pro:hover{
+    box-shadow: 2px 6px 6px #eee;
+}
+.hot-img img{
+    width: 200px;
+    height: 200px;
+}
+.hot-title{
+    line-height: 30px;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.model{
+    padding: 0 5px ;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.btns{
+    padding: 20px 0;
+}
+.bt-a {
+    margin: 0 4px;
+    padding: 5px 10px;
+    border: 1px solid var(--my-color);
+    color: var(--my-color);
+    cursor: pointer;
+}
+.bt-a:hover{
+    background: var(--my-color);
+    color: #FFF;
+}
+.o-input{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px 0;
+}
+.one-input{
+    width: 48%;
+    margin: 10px 1%;
+}
+.one-input input{
+    height: 40px;
+    line-height: 40px;
+    padding-left: 15px;
+    width: 96%;
+    border: 1px solid #e8e8e8;
+}
+.codes{
+    display: flex;
+}
+.codes span{
+    line-height: 40px;
+    color: #666;
+}
+.code{
+    width: 40%!important;
+}
+.one-inputs{
+    margin-top: 5px;
+    width: 98%;
+    margin-left: 1%;
+}
+.o-rs{
+    width: 98%;
+    border: 1px solid #e8e8e8;
+    height: 150px;
+    padding-left: 10px;
+    resize: none;
+}
+.btn{
+    width: 70px;
+    height: 40px;
+    border: 1px solid #e8e8e8;
+    text-align: center;
+    line-height: 40px;
+    margin: 20px auto;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all .3s;
+}
+.btn:hover{
+    background: var(--my-color);
+    color: #FFF;
+    border: 1px solid var(--my-color);
+}
+.content{
+    padding: 20px 0;
+}
+.h2-title{
+    text-align: center;
+    padding: 20px 0;
+}

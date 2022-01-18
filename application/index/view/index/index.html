@@ -1,0 +1,143 @@
+{extend name='index/public' /}
+{block name='title'}{/block}
+{block name='keyowrd'}{:getInfo()['web_key']}{/block}
+{block name='desc'}{:getInfo()['web_desc']}{/block}
+{block name='css'}
+<link rel="stylesheet" href="_ST_/js/swiper/swiper-bundle.min.css">
+<link rel="stylesheet" href="_ST_/css/index.css">
+{/block}
+
+{block name='content'}
+<div class="swiper-bg swiper">
+    <div class="swiper-wrapper">
+        {volist name=":getIndexBg()" id='vo'}
+        <div class="swiper-slide"><a href="{$vo.url}"><img src="/{$vo.img_url}" alt="{$vo.name}"></a></div>
+        {/volist}
+    </div>
+    <div class="swiper-pagination"></div>
+</div>
+<div class="contents">
+    <h2 class="h2-title">推荐产品</h2>
+    <div class="index-f1">
+        <div class="i-left"><a {$banner.left[0]['url']=='_'?'':'href="'.$banner.left[0]['url'].'"'}><img src="/{$banner.left[0]['img_url']}" alt=""></a></div>
+        <div class="i-right"><a {$banner.right[0]['url']=='_'?'':'href="'.$banner.right[0]['url'].'"'}><img src="/{$banner.right[0]['img_url']}" alt=""></a></div>
+    </div>
+    <h2 class="h2-title">热门产品</h2>
+    <div class="swiper-hot swiper">
+        <div class="swiper-wrapper">
+            {volist name="hot" id="vo"}
+            <div class="swiper-slide">
+                <a href="{:url('/product-detail/'.$vo.url_name)}">
+                    <div class="one-hot">
+                        <div class="hot-img">
+                            <img src="//{$vo.img_url=='#'?(getInfo()['web_img_url']):$vo.img_url}" alt="">
+                        </div>
+                        <h4 class="hot-title">{$vo.name}</h4>
+                        <div class="hot-btn">
+                            <a class="hot-a" onclick="kefu()">立即询价</a>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {/volist}
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
+    <div class="mores-btn"><a href="{:url('/product-list')}">查看更多</a></div>
+</div>
+
+<div class="advantage">
+    <h2 class="h2-title">我们的优势</h2>
+    <div class="advs">
+        <div class="one-adv">
+            <img src="_ST_/img/zp.png" alt="正品保障">
+            <h4>正品保障</h4>
+        </div>
+        <div class="one-adv">
+            <img src="_ST_/img/hz.png" alt="货真价实">
+            <h4>货真价实</h4>
+        </div>
+        <div class="one-adv">
+            <img src="_ST_/img/xh.png" alt="现货库存">
+            <h4>现货库存</h4>
+        </div>
+        <div class="one-adv">
+            <img src="_ST_/img/cx.png" alt="诚信经营">
+            <h4>诚信经营</h4>
+        </div>
+        <div class="one-adv">
+            <img src="_ST_/img/zy.png" alt="专业服务">
+            <h4>专业服务</h4>
+        </div>
+    </div>
+</div>
+
+<div class="contents">
+    <h2 class="h2-title">关于我们</h2>
+    <div class="about-us">
+        <div class="about-img">
+            <img src="_ST_/img/com.jpg" alt="深圳时时发控股有限公司">
+        </div>
+        <div class="about-desc">
+            深圳市时时发控股有限公司（SSF）成立于2015年03月12日。主要经营主动元件，IC集成电路，存储芯片，传感器等，与全球诸多著名的IC制造商和代理商建立了良好的商务关系，客户遍及全世界。在行业内赢得了很好的声誉，创建至今，我们的营销团队不断壮大，与时俱进，努力提高公司的核心价值，以良好信用，优越质量，优势价格，快捷交货和灵活的财务支持获得客户一致好评。
+            时时发控股有限公司专业经营的IC系列产品广泛应用于嵌入式系统 、服务器、车载、医疗设备、5G、安防监控、工业自动化、通讯工业、 网通等各个领域
+        </div>
+    </div>
+</div>
+
+<div class="new-content">
+    <div class="n-content">
+        <h2 class="h2-title">新闻资讯</h2>
+        <div class="news-list">
+            {volist name='news' id='vo'}
+            <div class="one-new">
+                <a href="{:url('/news-detail/'.$vo.id)}">
+                    <!--                <div class="n-img"><img class="active-img" src="/{$vo.img_url}" alt=""></div>-->
+                    <div class="infos">
+                        <h2 class="news-title">{$vo.title}</h2>
+                        <div class="news-desc">{$vo.desc}</div>
+                        <div class="news-tag"><span>标签：</span>{volist name='$vo.tags' id='voo'}<a class="tag-a" href="{:url('/tag_news/'.$voo.id)}"><span>{$voo.tag_name}</span></a>{/volist}</div>
+                    </div>
+                </a>
+            </div>
+            {/volist}
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name='js'}
+<script src="_ST_/js/swiper/swiper-bundle.min.js"></script>
+<script>
+    var swiper = new Swiper(".swiper-bg", {
+        spaceBetween: 30,
+        loop:true,
+        autoplay: {
+            delay: 3500,
+            stopOnLastSlide: false,
+            disableOnInteraction: true,
+        },
+        pagination :{
+            el: '.swiper-pagination',
+            clickable :true,
+        }
+    });
+    var swiper1 = new Swiper(".swiper-hot", {
+        slidesPerView: 5,
+        spaceBetween: 30,
+        slidesPerGroup: 5,
+        loop: true,
+        loopFillGroupWithBlank: true,
+        pagination :{
+            el: '.swiper-pagination',
+            clickable :true,
+        },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        }
+    });
+</script>
+{/block}

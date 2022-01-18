@@ -1,0 +1,246 @@
+{extend name='view/public' /}
+{block name="css"}
+<style>
+    .layui-transfer-box{
+        overflow-y: auto;
+    }
+    .content{
+        padding: 0 2%;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .btn{
+        margin-top: 30px;
+        width: 100%;
+    }
+    .test1{
+        width: 30%;
+    }
+    .tops{
+        width: 65%;
+        margin-left: 5%;
+    }
+</style>
+{/block}
+{block name="content"}
+<div class="wrapper wrapper-content">
+
+    <div class="content">
+        <div class="test1">
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>产品数据导入设置</legend>
+            </fieldset>
+            <div id="test1"></div>
+            <div class="btn">
+                <button type="button"  lay-demotransferactive="getData" class="top-btn layui-btn layui-btn-normal">保存</button>
+                <button type="button" onclick="download()" class="top-btn layui-btn layui-btn-normal">下载模板</button>
+            </div>
+        </div>
+
+        <div class="tops">
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>产品数据表管理</legend>
+            </fieldset>
+            <button type="button" onclick="add()"  class="top-btn layui-btn layui-btn-normal">新增字段</button>
+            <p>字段为默认字段不可进行操作'id','name','model','c_id','url_name','brand','state',
+                'keyword','desc','content','show','hot','add_time','img_url','urls'，自定义新增字段可以操作。</p>
+            <table class="layui-table" id="content"  lay-filter="content"></table>
+        </div>
+    </div>
+    <script type="text/html" id="barDemo">
+        <button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">编辑</button>
+        <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</button>
+    </script>
+
+</div>
+
+<div id="adds" style="display:none;padding: 30px;">
+    <form class="layui-form" action="" lay-filter="test">
+        <input type="text" hidden name="namets">
+        <div class="layui-form-item">
+            <label class="layui-form-label">字段名</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" required autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">中文名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="comment" required autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">字段长度</label>
+            <div class="layui-input-block">
+                <input type="text" name="long" required autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">字段类型</label>
+            <div class="layui-input-block">
+                <select name="type" id="p-info" required lay-filter="p_id">
+                    <option value="int">int</option>
+                    <option value="varchar">varchar</option>
+                    <option value="text">text</option>
+                    <option value="datetime">datetime</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">默认值</label>
+            <div class="layui-input-block">
+                <input type="text" name="default" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"></label>
+            <div class="layui-input-block">
+                <button type="button" lay-submit lay-filter="go" class="layui-btn layui-btn-normal">提交</button>
+            </div>
+        </div>
+    </form>
+</div>
+{/block}
+
+{block name='js'}
+
+<script>
+    var datas = {$data|raw};
+    layui.use(['table',"form",'transfer', 'layer', 'util'],function (){
+        var $ = layui.$,transfer = layui.transfer,layer = layui.layer,util = layui.util;
+        var form = layui.form;
+        var table = layui.table;
+        //渲染
+        var tableIns = table.render({
+            elem: '#content'
+            ,height: 660
+            ,url: '/admin_login/api/getField' //数据接口
+            ,page: false //开启分页
+            ,cols: [[
+                {field:'column_name', title:'字段名称'}
+                ,{field:'column_comment', title:'字段中文名'}
+                ,{field:'column_type', title:'字段类型及长度'}
+                ,{field:'column_default', title:'默认值'}
+                ,{field: '',title:"操作",width:180,templet: "#barDemo"}
+            ]]
+        });
+        transfer.render({
+                elem: '#test1'  //绑定元素
+                ,title:['数据表字段','上传表数据字段']
+                ,data: datas
+                ,height:400
+                ,showSearch: true
+                ,value: {$value|raw}
+            ,id: 'key123' //定义索引
+    });
+        util.event('lay-demoTransferActive', {
+            getData: function(){
+                var getData = transfer.getData('key123'); //获取右侧数据
+                $.post('/admin_login/api/XlsSet',{data:getData},function (res){
+                    if(res.code===200){
+                        layer.msg(res.msg,{icon:6,time:2000})
+                    }else{
+                        layer.msg(res.msg,{icon:5,time:2000})
+                    }
+                })
+            }
+        });
+
+        table.on('tool(content)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'del') {
+                layer.confirm('真的删除么?', function (index) {
+                    $.get('/admin_login/api/delAttr/attr/' + data.column_name, function (res) {
+                        if (res.code === 200) {
+                            layer.msg(res.msg, {icon: 6, time: 2000});
+                            obj.del();
+                        } else {
+                            layer.msg(res.msg, {icon: 5, time: 2000});
+                        }
+                    })
+                })
+            } else if (obj.event === 'edit') {
+                $.post('/admin_login/api/getAttr/attr',{data:data.column_name},function (res){
+                    if(res.code===200){
+                        $("input[name='namets']").val(res.data.column_name)
+                        form.val("test", {
+                            "name": res.data.column_name
+                            ,"type": res.data.type
+                            ,"long": res.data.num
+                            ,"default":res.data.column_default
+                            ,"comment":res.data.column_comment
+                        });
+                        form.render();//添加这一句
+                        layer.open({
+                                title:"编辑字段",
+                                type:1,
+                                content:$('#adds'),
+                                area:['556px','450px'],
+                                shade: 0,
+                                cancel: function(index, layero){
+                                    layer.close(index)
+                                    return false;
+                                }
+
+                            }
+                        );
+
+                    }else{
+                        layer.msg(res.msg,{icon:5,time:2000})
+                    }
+
+                })
+            }
+        });
+
+
+        form.on('submit(go)',function (data){
+            var url = "/admin_login/api/addAttr"
+            if(data.field.namets!=="") {
+                url = "/admin_login/api/attr_update"
+            }
+            if(data.field.type==''||data.field.long==''||data.field.name==''||data.field.comment==''){
+                layer.msg('请填写完整');
+                return false;
+            }
+            if(data.field.type==='int'){
+                if(data.field.long>11){
+                    layer.msg('类型为int,长度为1-11')
+                    return false;
+                }
+                var patt1 = /[0,9]{1,11}/
+                if(!data.field.default.match(patt1)){
+                    layer.msg('类型为int,默认值只能为数字')
+                    return false;
+                }
+            }
+            $.post(url,{data:data.field},function (res){
+                if(res.code===200){
+                    layer.msg(res.msg,{icon:6,time:2000})
+                    setTimeout(function (){layer.closeAll();},2000)
+                    tableIns.reload();
+                    return 1;
+                }
+                layer.msg(res.msg,{icon:5,time:2000})
+            })
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        })
+
+
+    });
+    function download(){
+        window.location.href='/admin_login/api/downloadXls'
+    }
+
+    function add(){
+        layer.open({
+            title:'添加字段',
+            type:1,
+            content:$('#adds'),
+            area:['556px','450px'],
+            shade: 0,
+         }
+        )
+    }
+</script>
+{/block}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>网站后台管理平台</title>
+    <link rel="stylesheet" href="_ST_/js/layui/css/layui.css">
+    <script src="_ST_/js/jquery-3.1.1.min.js"></script>
+    <script src="_ST_/js/layui/layui.js"></script>
+    {block name='css'}{/block}
+</head>
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo layui-hide-xs layui-bg-black">时时发网站管理后台</div>
+        <!-- 头部区域（可配合layui 已有的水平导航） -->
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="/en" target="_blank">站点首页</a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="/admin_login/index/index">中文管理页面</a>
+            </li>
+            <li class="layui-nav-item layui-hide layui-show-md-inline-block">
+                <a href="javascript:;">
+                    <img src="//tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" class="layui-nav-img">
+                    admin
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">修改密码</a></dd>
+                    <dd><a href="/admin_login_en/login/logout">退出</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item" lay-header-event="menuRight" lay-unselect>
+                <a href="javascript:;">
+                    <i class="layui-icon layui-icon-more-vertical"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="demo">
+                <li class="layui-nav-item {$menu=='index'? 'layui-this':''}"><a href="/admin_login_en/index/index">系统首页</a></li>
+                <li class="layui-nav-item {$menu=='system'? 'layui-this':''}"><a href="/admin_login_en/index/system">系统设置</a></li>
+                <li class="layui-nav-item {$menu=='content'? 'layui-this':''}"><a href="/admin_login_en/index/content">内容管理</a></li>
+                <li class="layui-nav-item {$menu=='banner'? 'layui-this':''}"><a href="/admin_login_en/index/banner">Banner管理</a></li>
+                <li class="layui-nav-item {$menu=='news'? 'layui-this':''}"><a  href="/admin_login_en/index/news">文章管理</a></li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a href="javascript:;">产品管理</a>
+                    <dl class="layui-nav-child">
+                        <dd class="{$menu=='category'? 'layui-this':''}"><a href="/admin_login_en/index/category">类别管理</a></dd>
+                        <dd class="{$menu=='product'? 'layui-this':''}"><a href="/admin_login_en/index/product">产品详情管理</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        {block name='content'}{/block}
+    </div>
+</div>
+</body>
+
+{block name='js'}{/block}
+</html>

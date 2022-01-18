@@ -1,0 +1,78 @@
+{extend name='index/public' /}
+{block name='title'}{$data.title}{/block}
+{block name='keyword'}{$data.keyword}{/block}
+{block name='desc'}{$data.desc}{/block}
+{block name='css'}
+<link rel="stylesheet" href="_ST_/css/news-detail.css">
+{/block}
+{block name='content'}
+<div class="about-banner">
+    <img src="/{:getBanner(3)['img_url']?getBanner(3)['img_url']:''}" alt="">
+</div>
+<div class="mbx">
+    <span class="layui-breadcrumb">
+  <a href="/">首页</a>
+  <a href="{:url('/news')}">新闻资讯</a>
+  <a><cite>{$data.title}</cite></a>
+</span></div>
+<div class="about">
+    <div class="news-content">
+        <div class="show-news">
+            <h1 class="h1-title">{$data.title}</h1>
+            <div class="new-bottom">
+                <div class="new-other"><span><img class="times" src="_ST_/img/time.png" alt="">{$data.add_time}</span> <span><img
+                        src="_ST_/img/read.png" class="read" alt="">{$data.view_count}</span></div>
+                <div class="news-tag"><span><i class="layui-icon">&#xe66e;</i></span>{volist name='tags' id='voo'}<a class="tag-a" href="{:url('/tag_news/'.$voo.id)}"><span>{$voo.tag_name}</span></a>{/volist}</div>
+            </div>
+            <div class="new-detail">
+                {$data.content|raw}
+            </div>
+
+            <div class="more">
+                <div class="nexts"><span>上一篇：</span>{$prev.title==""?"没有了":'<a href="/news-detail/'.$prev.id.'.html">'.$prev.title.'</a>'}</div>
+                <div class="nexts"><span>下一篇：</span>{$next.title==""?"没有了":'<a href="/news-detail/'.$next.id.'.html">'.$next.title.'</a>'}</div>
+            </div>
+            <div class="like">
+                <h2 class="h2-title">相关新闻</h2>
+                {volist name='news' id='vos'}
+                <div class="one-new"><a href="{:url('/news-detail/'.$vos.id)}">{$vos.title}</a></div>
+                {/volist}
+            </div>
+        </div>
+    </div>
+    <div class="slider">
+        <div class="hot-news">
+            <h3 class="h3-title">
+                热门新闻
+            </h3>
+            {volist name="hot_news" id='vo'}
+            <a href="{:url('/news-detail/'.$vo.id)}"><div class="one-hot">{$vo.title} </div></a>
+            {/volist}
+        </div>
+
+        <div class="hot-pro">
+            <h3 class="h3-title">热门产品</h3>
+            {volist name="hot_pro" id='vo'}
+            <a href="{:url('/product-detail/'.$vo.url_name)}">
+                <div class="one-hot-pro">
+                    <div class="hot-img"><img src="/{$vo.img_url}" alt="{$vo.name}"></div>
+                    <div class="hot-info">
+                        <h4 class="hot-title">{$vo.name}</h4>
+                        <div class="model">型号：{$vo.model}</div>
+                        <div class="btn"><a target="_blank" class="bt-a" onclick="kefu()" rel="nofollow">立即询价</a></div>
+                    </div>
+                </div>
+            </a>
+            {/volist}
+        </div>
+    </div>
+
+</div>
+
+{/block}
+
+{block name='js'}
+<script>
+
+</script>
+{/block}

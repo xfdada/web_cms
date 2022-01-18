@@ -1,0 +1,154 @@
+.about-banner{
+    width: 100%;
+}
+.mbx{
+    padding-top: 10px;
+    padding-left: 2%;
+}
+.about-banner img{
+    max-width: 100%;
+}
+.about{
+    margin: 15px auto;
+    width: 1200px;
+    display: flex;
+    min-height: 800px;
+}
+.slider{
+    width: 280px;
+    margin-left: 20px;
+    background: #FFF;
+    border-radius: 10px;
+}
+.news-content{
+    width: 900px;
+    background: #FFF;
+    border-radius: 10px;
+    min-height: 600px;
+    padding-bottom: 40px;
+}
+.new-bottom{
+    display: flex;
+    width: 100%;
+    line-height: 30px;
+    padding-bottom: 20px;
+}
+.times{
+    width: 25px;
+    padding-right: 10px;
+}
+.read{
+    width: 20px;
+    padding-left: 20px;
+    padding-right: 10px;
+}
+.news-tag {
+    width: 50%;
+    margin-left: 20%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.tag-a{
+    padding: 0 10px;
+    border-right: 2px solid #c1c1c1;
+}
+.tag-a:last-child{
+    border: none;
+}
+.new-other{
+    width: 270px;
+}
+.show-news{
+    padding: 20px 15px;
+    color: #666;
+}
+.new-detail{
+    min-height: 500px;
+}
+.h1-title{
+    padding: 20px 0;
+}
+.more{
+    line-height: 30px;
+    font-size: 18px;
+}
+.like{
+    margin: 20px 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+.one-new {
+    width: 48%;
+    line-height: 32px;
+    font-size: 16px;
+}
+.one-new a{
+    display: block;
+}
+.one-new:nth-child(2n-1) {
+    margin-left: 4%;
+}
+.h2-title{
+    width: 100%;
+    font-weight: 600;
+    padding: 20px 0;
+}
+.hot-news{
+    height: 200px;
+    padding-bottom: 20px;
+}
+.h3-title{
+    text-align: center;
+    padding: 15px 0;
+    font-weight: 600;
+}
+.one-hot{
+    line-height: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0 10px;
+}
+.one-hot-pro{
+    width: 90%;
+    margin: 10px 5%;
+    text-align: center;
+    border: 1px solid #eee;
+    border-radius: 5px;
+}
+.one-hot-pro:hover{
+    box-shadow: 2px 6px 6px #eee;
+}
+.hot-img img{
+    width: 200px;
+    height: 200px;
+}
+.hot-title{
+    line-height: 30px;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.model{
+    padding: 0 5px ;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.btn{
+    padding: 20px 0;
+}
+.bt-a {
+    margin: 0 4px;
+    padding: 5px 10px;
+    border: 1px solid var(--my-color);
+    color: var(--my-color);
+    cursor: pointer;
+}
+.bt-a:hover{
+    background: var(--my-color);
+    color: #FFF;
+}
