@@ -62,7 +62,7 @@
     <div class="product-info">
         <div class="top-info">
             <div class="info-img">
-                <img src="/{$info.img_url=='-'?(getInfo()['web_img_url']):$info.img_url}" alt="">
+                <img src="/{$info.img_url=='#'?(getInfo()['web_img_url']):$info.img_url}" alt="">
             </div>
             <div class="info-info">
                 <h1 class="h1-title">{$info.name}</h1>
@@ -94,10 +94,12 @@
             <div class="pro-table">
                 <div class="tr-list">
                     {volist name='attrs' id='vo'}
+                    {if $vo.attr_value!='#'}
                     <div class="one-tr">
                         <div class="attr-titles pro-title">{$vo.attr_name}</div>
                         <div class="attr-values">{$vo.attr_value}</div>
                     </div>
+                    {/if}
                     {/volist}
                 </div>
 

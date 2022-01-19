@@ -189,11 +189,27 @@
                 ,{field:'title', title:'类目标题'}
                 ,{field:'keyword', title:'类目关键词'}
                 ,{field:'desc', title:'类目描述'}
+                ,{field:'num', title:'排序',edit:true},
                 ,{field:'show', title:'是否显示',templet: "#switchTpl"}
                 ,{field: '',title:"操作",width:380,templet: "#barDemo"}
             ]]
         });
+
         table.resize('content');
+        table.on('edit(content)',function (obj){
+            var trys = /^[+]{0,1}(\d+)$/
+            if (!trys.test(obj.value)){
+                layer.msg('请输入有效数字',{icon:5,time:2000})
+                return 0;
+            }
+            $.post("/admin_login/api/category_num/id/"+obj.data.id,{num:obj.value},function (res){
+                if(res.code===200){
+                    layer.msg(res.msg,{icon:6,time:2000})
+                }else{
+                    layer.msg(res.msg,{icon:5,time:2000})
+                }
+            })
+        })
         table.on('tool(content)', function (obj) {
             var data = obj.data;
             if (obj.event === 'del') {

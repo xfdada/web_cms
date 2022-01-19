@@ -22,7 +22,7 @@
             <div class="new-bottom">
                 <div class="new-other"><span><img class="times" src="_ST_/img/time.png" alt="">{$data.add_time}</span> <span><img
                         src="_ST_/img/read.png" class="read" alt="">{$data.view_count}</span></div>
-                <div class="news-tag"><span><i class="layui-icon">&#xe66e;</i></span>{volist name='tags' id='voo'}<a class="tag-a" href="{:url('/tag_news/'.$voo.id)}"><span>{$voo.tag_name}</span></a>{/volist}</div>
+                <div class="news-tag"><span><i class="layui-icon">&#xe66e;</i></span><a class="tag-a" href="{:url('/menu-list/'.$self_tag['id'])}"><span>{$self_tag['tag_name']}</span></a></div>
             </div>
             <div class="new-detail">
                 {$data.content|raw}

@@ -1,0 +1,171 @@
+{extend name='index/public' /}
+{block name='title'}{$tag_info.tag_name}-标签-{/block}
+{block name='keyword'}{/block}
+{block name='desc'}{/block}
+{block name='css'}
+<link rel="stylesheet" href="_ST_/css/news-detail.css">
+<style>
+    .show-news{
+        position: relative;
+    }
+    .one-mu{
+        position: relative;
+        height: 31px;
+        padding-left: 31px;
+        line-height: 31px;
+        font-size: 16px;
+    }
+    .one-mu:hover a{
+        color:var(--my-color);
+    }
+    .one-mu:hover::after{
+        background: var(--my-color)!important;
+        border: 1px solid #FFF;
+    }
+    .one-mu a{
+        display: block;
+    }
+
+    .one-mu::after{
+        content: "";
+        position: absolute;
+        left: 0;
+        width: 11px;
+        height: 11px;
+        top: 8px;
+        border-radius: 50%;
+        border: 1px solid #000;
+        background: #FFF;
+        z-index: 2;
+    }
+    .one-mu::before{
+        content: "";
+        position: absolute;
+        left: 6px;
+        height: 31px;
+        top: 0;
+        width: 1px;
+        background: #000;
+        z-index: 1;
+    }
+    .one-mu:last-child::before {
+        content: "";
+        position: absolute;
+        left: 6px;
+        height: 21px;
+        top: 0;
+        width: 1px;
+        background: #000;
+        z-index: 1;
+     }
+    .one-mu:first-child::before {
+        content: "";
+        position: absolute;
+        left: 6px;
+        height: 21px;
+        top: 10px;
+        width: 1px;
+        background: #000;
+        z-index: 1;
+    }
+    .one-ne-title{
+        font-size: 18px;
+        font-weight: 600;
+        padding: 30px 0;
+    }
+    .one-ne-content{
+        padding-bottom: 20px;
+    }
+    .one-ne-more{
+        text-align: right;
+    }
+    .one-ne-more a{
+        color: var(--my-color);
+    }
+    .stick-menu{
+        position: sticky;
+        top: 0;
+        left: 20px;
+        width: 300px;
+        height: 200px;
+        background: #FFF;
+    }
+</style>
+{/block}
+{block name='content'}
+<div class="about-banner">
+    <img src="/{:getBanner(3)['img_url']?getBanner(3)['img_url']:''}" alt="">
+</div>
+<div class="mbx">
+    <span class="layui-breadcrumb">
+  <a href="/">首页</a>
+  <a href="{:url('/news')}">新闻资讯</a>
+  <a><cite>{$tag_info.tag_name}</cite></a>
+</span></div>
+<div class="about">
+    <div class="news-content">
+        <div class="show-news">
+            <h1 class="h1-title">{$tag_info.tag_name}</h1>
+            <div class="one-menus">
+                {volist name='data' id='vo'}
+                <li class="one-mu"><a href="#news{$vo.id}">{$vo.title}</a></li>
+                {/volist}
+            </div>
+
+            <div class="stick-menu">
+
+            </div>
+
+            {volist name='data' id='vo'}
+            <div class="one-ne" id="news{$vo.id}">
+                <div class="one-ne-title">{$vo.title}</div>
+                <div class="one-ne-content">
+                    {$vo.content|raw}
+                </div>
+                <div class="one-ne-more"><a href="{:url('/news-detail/'.$vo.id)}">查看更多</a></div>
+            </div>
+            {/volist}
+            <div class="like">
+                <h2 class="h2-title">相关新闻</h2>
+                {volist name='news' id='vos'}
+                <div class="one-new"><a href="{:url('/news-detail/'.$vos.id)}">{$vos.title}</a></div>
+                {/volist}
+            </div>
+        </div>
+    </div>
+    <div class="slider">
+        <div class="hot-news">
+            <h3 class="h3-title">
+                热门新闻
+            </h3>
+            {volist name="hot_news" id='vo'}
+            <a href="{:url('/news-detail/'.$vo.id)}"><div class="one-hot">{$vo.title} </div></a>
+            {/volist}
+        </div>
+
+        <div class="hot-pro">
+            <h3 class="h3-title">热门产品</h3>
+            {volist name="hot_pro" id='vo'}
+            <a href="{:url('/product-detail/'.$vo.url_name)}">
+                <div class="one-hot-pro">
+                    <div class="hot-img"><img src="/{$vo.img_url}" alt="{$vo.name}"></div>
+                    <div class="hot-info">
+                        <h4 class="hot-title">{$vo.name}</h4>
+                        <div class="model">型号：{$vo.model}</div>
+                        <div class="btn"><a target="_blank" class="bt-a" onclick="kefu()" rel="nofollow">立即询价</a></div>
+                    </div>
+                </div>
+            </a>
+            {/volist}
+        </div>
+    </div>
+
+</div>
+
+{/block}
+
+{block name='js'}
+<script>
+
+</script>
+{/block}

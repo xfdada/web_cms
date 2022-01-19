@@ -30,7 +30,7 @@
                 <a href="{:url('/product-detail/'.$vo.url_name)}">
                     <div class="one-hot">
                         <div class="hot-img">
-                            <img src="//{$vo.img_url=='#'?(getInfo()['web_img_url']):$vo.img_url}" alt="">
+                            <img src="/{$vo.img_url=='#'?(getInfo()['web_img_url']):$vo.img_url}" alt="">
                         </div>
                         <h4 class="hot-title">{$vo.name}</h4>
                         <div class="hot-btn">

@@ -139,11 +139,23 @@ class Api extends Base {
         }
         return json(['code'=>200,'msg'=>"更新成功!"]);
     }
+    public function category_num($id){
+        $value = input('num',0);
 
+        $data['num'] = $value ;
+        $new = new Category();
+        $res = $new->save($data,['id'=>$id]);
+        if(!$res){
+            return json(['code'=>500,'msg'=>"更新失败!"]);
+        }
+        return json(['code'=>200,'msg'=>"更新成功!"]);
+    }
     public function tags(){
         $tag = Tag::select();
         return json(['code'=>200,'data'=>$tag]);
     }
+
+
     public function addTag(){
         $data['tag_name'] = input('tag_name','');
         if($data['tag_name']!=''){
@@ -631,7 +643,7 @@ class Api extends Base {
         if(in_array($data['name'],$fields)){
             return json(['code'=>500,'msg'=>'字段名不能重复']);
         }
-        Db::execute("ALTER TABLE `web_product` ADD COLUMN `{$data['name']}` {$data['type']}({$data['long']}) NULL COMMENT '{$data['comment']}'");
+        Db::execute("ALTER TABLE `web_product` ADD COLUMN `{$data['name']}` {$data['type']}({$data['long']}) DEFAULT '{$data['default']}' COMMENT '{$data['comment']}'");
 
         return json(['code'=>200,'msg'=>'添加成功']);
 
@@ -646,11 +658,8 @@ class Api extends Base {
         if(in_array($attr,$attrs)){
             return json(['code'=>500,'msg'=>'默认参数不可删除']);
         }
-        $res = Db::execute("ALTER TABLE `web_product` DROP COLUMN `{$attr}`");
-        if($res){
-            return json(['code'=>200,'msg'=>'删除成功']);
-        }
-        return json(['code'=>500,'msg'=>'删除失败']);
+        Db::execute("ALTER TABLE `web_product` DROP COLUMN `{$attr}`");
+        return json(['code'=>200,'msg'=>'删除成功']);
     }
 
     public function editAttr($attr){

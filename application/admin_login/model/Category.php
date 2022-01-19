@@ -31,15 +31,15 @@ class Category extends Model{
 
     public function getFullTree(){
         $tree = [];
-        $res = $this::where('level',1)->where('show',1)->select();
+        $res = $this::where('level',1)->where('show',1)->order('num','desc')->select();
         foreach ($res as $k=>$v){
             $tree[$k] = $v;
-            $sub = $this::where('p_id',$v['id'])->where('show',1)->select();
+            $sub = $this::where('p_id',$v['id'])->where('show',1)->order('num','desc')->select();
             if($sub){
                 $subs = [];
                 foreach ($sub as $kk=>$vv){
                     $subs[] = $vv;
-                    $subst = $this::where('p_id',$vv['id'])->where('show',1)->select();
+                    $subst = $this::where('p_id',$vv['id'])->where('show',1)->order('num','desc')->select();
                     $subss = [];
                     if($subst){
                         foreach ($subst as $vvv){

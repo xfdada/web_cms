@@ -22,5 +22,6 @@ Route::get('/product-list/[:name]/[:type]/[:last]', 'index/index/product_list');
 Route::get('/product-detail/:names', 'index/index/product_detail');
 Route::post('/feedback','index/index/feedback');
 Route::get('/search/[:keyword]','index/index/search');
+Route::get('/menu-list/:tag_id','index/index/menu_list');
 
 

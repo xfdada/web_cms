@@ -144,14 +144,22 @@
             <div class="layui-inline">
                 <input type="text" name="img_url" disabled value="" id="logo" placeholder="" class="layui-input img-lo">
                 <i class="layui-icon show-icon" data-tag="web_logo">&#xe64a;</i>
-                <button type="button" class="layui-btn up-btn" id="test2"><i class="layui-icon"></i>上传缩略图</button>
+                <button type="button" class="layui-btn up-btn layui-btn-normal" id="test2"><i class="layui-icon"></i>上传缩略图</button>
                 <div class="img-show"><img src="" id="imgs" alt=""></div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">自定义标签</label>
+            <div class="layui-inline">
+                <input type="text" name="my_tag" id="my_tag" placeholder="" class="layui-input img-lo">
+                <button type="button" style="right: 40px;" onclick="addTag()" class="layui-btn layui-btn-normal up-btn">新增标签</button>
+            </div>
+            <div class="layui-input-block" id="self_tag">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">文章标签</label>
             <div class="layui-input-block" id="tags">
-
             </div>
         </div>
         <div class="layui-form-item">
@@ -184,6 +192,19 @@
                     po +='<input type="checkbox" name="tag_id" value="'+res.data[i].id+'" title="'+res.data[i].c_name+'" lay-skin="primary">'
                 }
                 $("#tags").append(po)
+                layui.use('form',function (){
+                    var form = layui.form;
+                    form.render();//添加这一句
+                })
+            }
+        })
+        $.get('/admin_login/api/tags',function (res){
+            if(res.code===200){
+                var po = ""
+                for (let i = 0; i < res.data.length; i++) {
+                    po +='<input type="radio" name="self_tag" value="'+res.data[i].id+'" title="'+res.data[i].tag_name+'" lay-skin="primary">'
+                }
+                $("#self_tag").append(po)
                 layui.use('form',function (){
                     var form = layui.form;
                     form.render();//添加这一句
@@ -230,13 +251,14 @@
                 })
             } else if (obj.event === 'edit') {
                 $('input[name=tag_id]').prop('checked', false);
+                $('input[name=self_tag]').prop('checked', false);
                 form.render('checkbox');
+                form.render('radio');
                 form.render();
                 $.get('/admin_login/api/getNew/id/'+data.id,function (res){
                     if(res.code===200){
                         $("input[name='id']").val(res.data.id)
                         var tag_id = [];
-                        console.log(res.data.tag_id)
                         if(res.data.tag_id){
                             tag_id = res.data.tag_id.split(",")
                         }
@@ -245,6 +267,7 @@
                             ,"img_url": res.data.img_url
                             ,"desc": res.data.desc
                             ,"keyword":res.data.keyword
+                            ,"self_tag":res.data.self_tag
                         });
                         for (var j = 0; j < tag_id.length; j++) {
                             var Checkbox = $("input[name='tag_id']");
@@ -351,7 +374,7 @@
         $(this).parent('div').children('div').css('display','none')
     })
     function addTag(){
-        var tag_name =  $("input[name='tag_name']").val();
+        var tag_name =  $("input[name='my_tag']").val();
         if(tag_name===""){
             layer.msg('请填写完整')
             return 0;
@@ -359,8 +382,8 @@
         $.post("/admin_login/api/addTag",{tag_name:tag_name},function (res){
             if (res.code===200){
                 layer.msg(res.msg);
-                var html = '<input type="checkbox" name="tag_id" value="'+res.id+'" title="'+tag_name+'" lay-skin="primary">'
-                $("#tags").append(html)
+                var html = '<input type="radio" name="tag_id" value="'+res.id+'" title="'+tag_name+'" lay-skin="primary">'
+                $("#self_tag").append(html)
                 layui.use('form',function (){
                     var form = layui.form;
                     form.render();//添加这一句

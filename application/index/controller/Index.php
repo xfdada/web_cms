@@ -120,33 +120,29 @@ class Index extends Controller
         return view("index/tag_news");
     }
 
-    public function news_detail($id){
-        $data = News::find($id);
-        News::where('id',$id)->setInc('view_count',1);
+    public function menu_list($tag_id){
         $tag = new Tag();
-        $prev = News::where('id','<',$id)->where('show',1)->order('id','desc')->field('id,title')->find();
-        $next = News::where('id','>',$id)->where('show',1)->field('id,title')->find();
-        $tags = $tag->where("id",'in',$data['tag_id'])->select();
+        $tag_info = $tag->find($tag_id);
+        $data = Db::table('web_news')->where('self_tag',$tag_id)->field('id,title,content,tag_id')->select();
         $like_news = [];
-
-        /**  同标签下相似新闻，取前三个标签中的数据  */
-        if($tags!=""){
-            $tag_list = explode(',',$data['tag_id']);
-            $mores = Db::table('web_news')->where('show',1)->where("id",'<>',$id)
+        /**  同产品类别下相似新闻，取前三个产品类别中的数据  */
+        if($data[0]['tag_id']!=""){
+            $tag_list = explode(',',$data[0]['tag_id']);
+            $mores = Db::table('web_news')->where('show',1)->whereNotIn("id",implode(',',array_column($data,'id')))
                 ->where('tag_id','like',"%{$tag_list[0]}%")->limit(0,10)->field('id,title')->select();
             foreach ($mores as $v){
                 $like_ids[] = $v['id'];
                 $like_news[] = $v;
             }
             if(count($mores)<10&&count($tag_list)>=2){
-                $add = $mores = Db::table('web_news')->where('show',1)->whereNotIn("id",$id.','.implode(',',$like_ids))
+                $add = Db::table('web_news')->where('show',1)->whereNotIn("id",implode(',',$like_ids).','.implode(',',array_column($data,'id')))
                     ->where('tag_id','like',"%{$tag_list[1]}%")->limit(0,10-count($mores))->field('id,title')->select();
                 foreach ($add as $v){
                     $like_ids[] = $v['id'];
                     $like_news[] = $v;
                 }
                 if((count($mores)+count($add))<10&&count($tag_list)>=3){
-                    $adds = $mores = Db::table('web_news')->where('show',1)->whereNotIn("id",$id.','.implode(',',$like_ids))
+                    $adds = Db::table('web_news')->where('show',1)->whereNotIn("id",implode(',',$like_ids).','.implode(',',array_column($data,'id')))
                         ->where('tag_id','like',"%{$tag_list[1]}%")->limit(0,10-count($mores)-count($add))->field('id,title')->select();
                     foreach ($adds as $v){
                         $like_ids[] = $v['id'];
@@ -155,13 +151,60 @@ class Index extends Controller
                 }
             }
         }
+        unset($mores,$add,$adds);
 
+        $hot_news = News::where('show',1)->order('hot','desc')->limit(0,5)->field('id,title')->select();
+        $hot_pro = Product::where('show',1)->where('hot',1)->limit(0,5)->field('url_name,name,model,brand,img_url')->select();
+        $this->assign('menu','news');
+        $this->assign('news',$like_news);
+        $this->assign('hot_news',$hot_news);
+        $this->assign('tag_info',$tag_info);
+        $this->assign('data',$data);
+        $this->assign('hot_pro',$hot_pro);
+        return view("index/menu-list");
+    }
+    public function news_detail($id){
+        $data = News::find($id);
+        News::where('id',$id)->setInc('view_count',1);
+        $cat = new Category();
+        $tag = new Tag();
+        $self_tag = $tag->find($data['self_tag']);
+        $prev = News::where('id','<',$id)->where('show',1)->order('id','desc')->field('id,title')->find();
+        $next = News::where('id','>',$id)->where('show',1)->field('id,title')->find();
+        $like_news = [];
+        /**  同产品类别下相似新闻，取前三个产品类别中的数据  */
+        if($data['tag_id']!=""){
+            $tag_list = explode(',',$data['tag_id']);
+            $mores = Db::table('web_news')->where('show',1)->where("id",'<>',$id)
+                ->where('tag_id','like',"%{$tag_list[0]}%")->limit(0,10)->field('id,title')->select();
+            foreach ($mores as $v){
+                $like_ids[] = $v['id'];
+                $like_news[] = $v;
+            }
+            if(count($mores)<10&&count($tag_list)>=2){
+                $add = Db::table('web_news')->where('show',1)->whereNotIn("id",$id.','.implode(',',$like_ids))
+                    ->where('tag_id','like',"%{$tag_list[1]}%")->limit(0,10-count($mores))->field('id,title')->select();
+                foreach ($add as $v){
+                    $like_ids[] = $v['id'];
+                    $like_news[] = $v;
+                }
+                if((count($mores)+count($add))<10&&count($tag_list)>=3){
+                    $adds = Db::table('web_news')->where('show',1)->whereNotIn("id",$id.','.implode(',',$like_ids))
+                        ->where('tag_id','like',"%{$tag_list[1]}%")->limit(0,10-count($mores)-count($add))->field('id,title')->select();
+                    foreach ($adds as $v){
+                        $like_ids[] = $v['id'];
+                        $like_news[] = $v;
+                    }
+                }
+            }
+        }
+        unset($mores,$add,$adds);
         /** 热门新闻  热门产品 */
         $hot_news = News::where('show',1)->order('hot','desc')->limit(0,5)->field('id,title')->select();
         $hot_pro = Product::where('show',1)->where('hot',1)->limit(0,5)->field('url_name,name,model,brand,img_url')->select();
         $this->assign('news',$like_news);
         $this->assign('menu','news');
-        $this->assign("tags",$tags);
+        $this->assign("self_tag",$self_tag);
         $this->assign("data",$data);
         $this->assign("prev",$prev);
         $this->assign("next",$next);
@@ -262,13 +305,16 @@ class Index extends Controller
         /** 热门产品    */
 
         $hot_id = Product::whereNotIn('id',$hots)->order('hot','desc')->limit(0,500)->column('id');
-        $hot_ids = array_rand($hot_id,8);
-
-        $rands = [];
-        foreach ($hot_ids as $v){
-            $rands[] = $hot_id[$v];
-        }
-        $hot_pro = Product::where('show',1)->where('id','in',implode(',',$rands))->field('name,url_name,img_url')->select();
+       if(count($hot_id)>8){
+           $hot_ids = array_rand($hot_id,8);
+           $rands = [];
+           foreach ($hot_ids as $v){
+               $rands[] = $hot_id[$v];
+           }
+           $hot_pro = Product::where('show',1)->where('id','in',implode(',',$rands))->field('name,url_name,img_url')->select();
+       }else{
+           $hot_pro = Product::where('show',1)->field('name,url_name,img_url')->limit(0,5)->select();
+       }
 
         /**    */
 
@@ -326,7 +372,6 @@ class Index extends Controller
         $this->assign('menu','hot');
         return view('index/hot-list');
     }
-
 
     public function search($keyword=''){
         if($keyword==''){
