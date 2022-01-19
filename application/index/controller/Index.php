@@ -171,8 +171,8 @@ class Index extends Controller
     }
 
     public function product_list($name='',$type='',$last=''){
-        $field = Db::table('web_category')->where('url_name',$name)->value('show_clo');
-        $f_one = explode('-',$field);
+        $field = Db::table('web_category')->where('url_name',$name)->field('show_clo,title,keyword,desc')->find();
+        $f_one = explode('-',$field['show_clo']);
         if(empty($f_one[0])){
             $f_one[0]='model,brand';
             $f_one[1] = "型号,品牌" ;
@@ -206,6 +206,7 @@ class Index extends Controller
         $this->assign('type',$type);
         $this->assign('last',$last);
         $this->assign('tree',$tree);
+        $this->assign('cate',$field);
         $this->assign('page',$page);
         $this->assign('pro',$pro);
         $this->assign('info',$info);

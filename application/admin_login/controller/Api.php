@@ -174,7 +174,7 @@ class Api extends Base {
         $offset = ($page-1)*$limit;
         $banner = News::where('title','like','%'.$title.'%')->limit($offset,$limit)->select();
         foreach ($banner as $k=>$v){
-            $banner[$k]['tag_name'] = implode(',',Category::all($v['tag_id'])->column('c_name'));
+            $banner[$k]['tag_name'] = implode(',',Category::whereIn('id',$v['tag_id'])->column('c_name'));
         }
         $count = News::count('id');
         return json(['code'=>0,'count'=>$count ,'data'=>$banner]);
@@ -207,8 +207,8 @@ class Api extends Base {
     public function new_update($id){
         if($id!=''){
             $data = input('data',[]);
+            $data['tag_id'] = input('tag_id','');
             $new = new News();
-
             $res =  $new->save($data,['id'=>$id]);
             if($res){
                 return json(['code'=>200,'msg'=>'更新成功']);

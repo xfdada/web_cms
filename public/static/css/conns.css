@@ -270,7 +270,7 @@ body{
     position: absolute;
     left: 50%;
     margin-left: -12px;
-    bottom: 0;
+    bottom: 0!important;
 }
 .right-slider{
     position: fixed;

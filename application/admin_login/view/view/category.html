@@ -123,6 +123,24 @@
             </div>
         </div>
         <div class="layui-form-item">
+            <label class="layui-form-label">SEO标题</label>
+            <div class="layui-input-block">
+                <input type="text" name="title" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">SEO关键词</label>
+            <div class="layui-input-block">
+                <input type="text" name="keyword" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">SEO描述</label>
+            <div class="layui-input-block">
+                <input type="text" name="desc" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label"></label>
             <div class="layui-input-block">
                 <button type="button" lay-submit lay-filter="go" class="layui-btn layui-btn-normal">提交</button>
@@ -168,6 +186,9 @@
                 ,{field:'c_name', title:'分类名称'}
                 ,{field:'p_id', title:'上级分类ID'}
                 ,{field:'p_count', title:'类目产品数'}
+                ,{field:'title', title:'类目标题'}
+                ,{field:'keyword', title:'类目关键词'}
+                ,{field:'desc', title:'类目描述'}
                 ,{field:'show', title:'是否显示',templet: "#switchTpl"}
                 ,{field: '',title:"操作",width:380,templet: "#barDemo"}
             ]]
@@ -195,6 +216,9 @@
                             "c_name": res.data.c_name
                             ,"p_info": res.data.p_info
                             ,"url_name": res.data.url_name
+                            ,"title":res.data.title
+                            ,"keyword":res.data.keyword
+                            ,"desc":res.data.desc
                         });
                         form.render();//添加这一句
                         layer.open({

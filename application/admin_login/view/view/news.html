@@ -181,7 +181,7 @@
             if(res.code===200){
                 var po = ""
                 for (let i = 0; i < res.data.length; i++) {
-                    po +='<input type="checkbox" name="tag_id[]" value="'+res.data[i].id+'" title="'+res.data[i].c_name+'" lay-skin="primary">'
+                    po +='<input type="checkbox" name="tag_id" value="'+res.data[i].id+'" title="'+res.data[i].c_name+'" lay-skin="primary">'
                 }
                 $("#tags").append(po)
                 layui.use('form',function (){
@@ -235,7 +235,11 @@
                 $.get('/admin_login/api/getNew/id/'+data.id,function (res){
                     if(res.code===200){
                         $("input[name='id']").val(res.data.id)
-                        var tag_id = res.data.tag_id.split(",")
+                        var tag_id = [];
+                        console.log(res.data.tag_id)
+                        if(res.data.tag_id){
+                            tag_id = res.data.tag_id.split(",")
+                        }
                         form.val("test", {
                             "title": res.data.title
                             ,"img_url": res.data.img_url
@@ -326,7 +330,7 @@
                 url = "/admin_login/api/new_update/id/" + data.field.id
             }
             var arr_box = [];
-            $('input[type=checkbox]:checked').each(function() {
+            $('input[name=tag_id]:checked').each(function() {
                 arr_box.push($(this).val());
             });
             $.post(url,{data:data.field,tag_id:arr_box.join(',')},function (res){
